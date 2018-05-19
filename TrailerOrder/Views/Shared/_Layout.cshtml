@@ -31,8 +31,61 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Register
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                            <ul class="nav bg-dark">
+                                <li><a asp-controller="Employee" asp-action="Add">Register User</a></li>
+                                <li><a asp-controller="Tractor" asp-action="Add">Register Tractor</a></li>
+                                <li><a asp-controller="Trailer" asp-action="Add">Register Trailer</a></li>
+                                <li><a asp-controller="Order" asp-action="Add">Register Order</a></li>
+
+                            </ul>
+
+                        </div>
+                    </li>
+
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Trailer
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                            <ul class="nav bg-dark">
+                                <li><a asp-controller="Trailer" asp-action="Index">All Trailers</a></li>
+                                <li><a asp-controller="Trailer" asp-action="Remove">Remove Trailers</a></li>
+
+                            </ul>
+
+                        </div>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Order
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                            <ul class="nav bg-dark">
+                                <li><a asp-controller="Order" asp-action="Index">All Orders</a></li>
+                                <li><a asp-controller="Order" asp-action="Remove">Remove Orders</a></li>
+
+                            </ul>
+
+                        </div>
+                    </li>
+
+
+
                 </ul>
             </div>
         </div>

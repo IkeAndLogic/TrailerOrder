@@ -1,0 +1,39 @@
+﻿@model TrailerOrder.ViewModels.AddTrailerViewModel
+
+@{
+    ViewData["Title"] = "Register Trailer";
+}
+<h2>@ViewData["Title"]</h2>
+
+
+<form asp-controller="Trailer" asp-action="Add" method="post">
+    <fieldset>
+
+        <div class="form-group">
+
+            <div asp-for="SerialNumber">
+                <label> Serial Number </label>
+                <input class="form-control" asp-for="SerialNumber" />
+                <span asp-validation-for="SerialNumber"></span>
+
+            </div>
+
+        <div asp-for="TrailNumber">
+            <label> Assign Trailer Number </label>
+            <input class="form-control" asp-for="TrailerNumber" />
+            <span asp-validation-for="TrailerNumber"></span>
+
+        </div>
+
+
+</div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" name="submitButton" />
+        </div>
+
+    </fieldset>
+</form>
+
+<span class="label label-default" name="TodaysDate">@Model.TodaysDate</span>

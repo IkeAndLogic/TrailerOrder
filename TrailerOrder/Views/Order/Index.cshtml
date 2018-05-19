@@ -1,0 +1,47 @@
+﻿@model List<TrailerOrder.Models.Order>
+
+@{
+    ViewData["Title"] = "All Orders";
+}
+
+<br />
+@if (Model.Count == 0)
+{
+    <p> No order added yet!</p>
+}
+
+else
+{
+
+    <div class="container">
+        <h2>All Orders </h2>
+
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th> Order Number</th>
+                    <th> Trailers</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var order in Model)
+                {
+                <tr>
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.orderId"> @order.OrderNumber</a>
+                    </td>
+
+
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.TrailerForLoad">  @order.TrailerForLoad  </a>
+                    </td>
+                </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+
+
+}
+<p> <a asp-controller="Order" asp-action="Add"> Add Order</a> </p>
