@@ -39,7 +39,7 @@ namespace TrailerOrder.Controllers
         public IActionResult Add()
         {
             // passes in the list of available trailers in the order form
-            IList<Trailer> trailerForLoad = context.Trailers.Include(c => c.TrailerStatus == "Avaliable").ToList();
+            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Avaliable").ToList();
 
             AddOrderViewModel addOrderViewModel = new AddOrderViewModel(trailerForLoad);
 
@@ -56,19 +56,19 @@ namespace TrailerOrder.Controllers
                 {
                     OrderNumber = addOrderViewModel.OrderNumber,
                     
-
                     //matches the 
                     TrailerForLoad = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single()
-
-
-
                 };
 
                 context.Orders.Add(newOrder);
 
                 trailerSelected = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single();
 
+
+                //newOrder.TrailerForLoad = trailerSelected;
+
                 trailerSelected.TrailerStatus = "Unavilable";
+               
                 context.SaveChanges();
 
                 return Redirect("/Order");

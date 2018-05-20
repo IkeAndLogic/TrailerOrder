@@ -19,9 +19,11 @@ namespace TrailerOrder.ViewModels
 
         public List<SelectListItem> TrailersForLoad { get; set; }
 
+        public AddOrderViewModel()
+        {
+        }
 
-
-        public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad)
+            public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad)
         {
 
             TrailersForLoad = new List<SelectListItem>();

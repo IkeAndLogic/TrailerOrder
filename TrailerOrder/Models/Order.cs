@@ -17,8 +17,6 @@ namespace TrailerOrder.Models
         //has a one to one relationship with Trailer
         public virtual Trailer TrailerForLoad { get; set; }
 
-
-        
         public Order()
         {
             OrderStatus = "Available";
