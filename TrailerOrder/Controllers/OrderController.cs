@@ -29,8 +29,9 @@ namespace TrailerOrder.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-
-            List<Order> orders = context.Orders.ToList();
+            //Order list will populate all orders and include the Trailer object as well
+            //the Trailer object is necessary to access the trailer number attached to the order 
+            List<Order> orders = context.Orders.Include(c => c.TrailerForLoad).ToList();
 
             return View(orders);
         }
@@ -39,9 +40,12 @@ namespace TrailerOrder.Controllers
         public IActionResult Add()
         {
             // passes in the list of available trailers in the order form
-            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Avaliable").ToList();
+            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "No Order").ToList();
+
 
             AddOrderViewModel addOrderViewModel = new AddOrderViewModel(trailerForLoad);
+
+
 
             return View(addOrderViewModel);
         }
@@ -67,7 +71,7 @@ namespace TrailerOrder.Controllers
 
                 //newOrder.TrailerForLoad = trailerSelected;
 
-                trailerSelected.TrailerStatus = "Unavilable";
+                trailerSelected.TrailerStatus = "Unavailable";
                
                 context.SaveChanges();
 
@@ -81,7 +85,8 @@ namespace TrailerOrder.Controllers
         //gets details for individual load mapped by id
         public IActionResult OrderInfo(int id)
         {
-            Order orderInfo = context.Orders.Single(o => o.OrderID == id);
+            //linq query includes the trailer object for access to associted trailer properties and a single id of order
+            Order orderInfo = context.Orders.Include(c => c.TrailerForLoad).ToList().Single(o => o.OrderID == id);
 
             return View(orderInfo);
         }
@@ -100,41 +105,20 @@ namespace TrailerOrder.Controllers
         [HttpPost]
         public IActionResult Remove(int[] orderIds)
         {
+            //RemoveOrderViewModel removeOrderViewModel = new RemoveOrderViewModel(context.Orders.ToList());
+
+
             foreach (int orderId in orderIds)
             {
-
-                Order removeOrder = context.Orders.Single(c => c.OrderID == orderId);
-
-                context.Orders.Remove(removeOrder);
-
+                Order removeOrder = context.Orders.Include(c=> c.TrailerForLoad).ToList().Single(c => c.OrderID == orderId);
+                //trailerSelected.Status = "Available";
+                //trailerSelected = context.Trailers.Where(x => x.TrailerID == removeOrderViewModel.TrailerID).Single();
+                context.Orders.Remove(removeOrder);   
             }
-
-            //AddOrderViewModel addOrderViewModel = new AddOrderViewModel();
-            // trailerSelected = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single();
-
-            //trailerSelected.Status = "Available";
-
             context.SaveChanges();
             return Redirect("/");
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }
+

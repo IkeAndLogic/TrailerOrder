@@ -16,12 +16,14 @@
 
         </div>
 
-
+    
         <div class="form-group">
             <label asp-for="TrailersForLoad">Trailer</label>
             @Html.DropDownListFor(x => x.TrailerID, Model.TrailersForLoad)
+           @*<select asp-for="TrailersForLoad" asp-items="Model.TrailersForLoad" /> %>*@
             <span asp-validation-for="TrailersForLoad"></span>
         </div>
+      
 
 
         <div class="form-group">

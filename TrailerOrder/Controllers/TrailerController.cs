@@ -104,7 +104,19 @@ namespace TrailerOrder.Controllers
 
                 Trailer removeTrailer = context.Trailers.Single(c => c.TrailerID == trailerId);
 
-                context.Trailers.Remove(removeTrailer);
+
+
+                if (removeTrailer.TrailerStatus != "Available"){
+
+                    return Redirect("/Trailer/Remove");
+
+                    // need to display an error message on the remove form
+                }
+
+                else
+                {
+                    context.Trailers.Remove(removeTrailer);
+                }
 
             }
 

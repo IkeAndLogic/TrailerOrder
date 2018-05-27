@@ -14,12 +14,12 @@ namespace TrailerOrder.Models
         public int TrailerID { get; set; }
 
         //has a one to one relationship with order
-        public virtual Order orderforTrailer { get; set; }
+        public virtual Order OrderforTrailer { get; set; }
 
 
         public Trailer()
         {
-            TrailerStatus = "Avaliable";
+            TrailerStatus = "Available";
         }
 
 

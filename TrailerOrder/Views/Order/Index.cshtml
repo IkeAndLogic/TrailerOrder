@@ -21,6 +21,8 @@ else
                 <tr>
                     <th> Order Number</th>
                     <th> Trailers</th>
+                    <th> Order Status</th>
+                                        <th> Order Status</th>
                 </tr>
             </thead>
 
@@ -34,7 +36,13 @@ else
 
 
                     <td>
-                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.TrailerForLoad </a>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.TrailerForLoad.TrailerNumber </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.OrderStatus </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.TrailerForLoad.TrailerStatus </a>
                     </td>
                 </tr>
                 }
