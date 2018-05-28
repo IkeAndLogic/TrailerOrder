@@ -106,16 +106,17 @@ namespace TrailerOrder.Controllers
 
 
 
-                if (removeTrailer.TrailerStatus != "Available"){
+                if (removeTrailer.TrailerStatus == "Available"){
 
-                    return Redirect("/Trailer/Remove");
+                    context.Trailers.Remove(removeTrailer);
 
                     // need to display an error message on the remove form
                 }
 
                 else
                 {
-                    context.Trailers.Remove(removeTrailer);
+                    return Redirect("/Trailer/Remove");
+
                 }
 
             }

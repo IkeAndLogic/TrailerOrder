@@ -40,7 +40,7 @@ namespace TrailerOrder.Controllers
         public IActionResult Add()
         {
             // passes in the list of available trailers in the order form
-            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "No Order").ToList();
+            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Available").ToList();
 
 
             AddOrderViewModel addOrderViewModel = new AddOrderViewModel(trailerForLoad);
@@ -105,15 +105,12 @@ namespace TrailerOrder.Controllers
         [HttpPost]
         public IActionResult Remove(int[] orderIds)
         {
-            //RemoveOrderViewModel removeOrderViewModel = new RemoveOrderViewModel(context.Orders.ToList());
-
-
             foreach (int orderId in orderIds)
             {
-                Order removeOrder = context.Orders.Include(c=> c.TrailerForLoad).ToList().Single(c => c.OrderID == orderId);
+                Order removeOrder = context.Orders.Where(c => c.OrderID == orderId).Single();
                 //trailerSelected.Status = "Available";
                 //trailerSelected = context.Trailers.Where(x => x.TrailerID == removeOrderViewModel.TrailerID).Single();
-                context.Orders.Remove(removeOrder);   
+                context.Orders.Remove(removeOrder);
             }
             context.SaveChanges();
             return Redirect("/");
