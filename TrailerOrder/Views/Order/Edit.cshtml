@@ -1,0 +1,40 @@
+﻿@model TrailerOrder.ViewModels.EditOrderViewModel
+
+@{
+    ViewData["Title"] = "Edit Order";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Order" asp-action="Edit" method="post">
+
+    <fieldset>
+
+        <div class="form-group">
+            <label asp-for="Order.OrderNumber">Order number </label>
+            <input class="form-control" asp-for="Order.OrderNumber" />
+            <span asp-validation-for="Order.OrderNumber"></span>
+
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="TrailerID">Trailer</label>
+            @*@Html.DropDownListFor(x => x.TrailerID, Model.TrailersForLoad)*@
+            <select asp-for="TrailerID" asp-items="Model.TrailersForLoad"></select>
+            <span asp-validation-for="TrailerID"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label asp-for="CustomerID">Customers Name</label>
+            <select asp-for="CustomerID" asp-items="Model.CustomersOrder"></select>
+            <span asp-validation-for="CustomerID"></span>
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" name="submitButton" />
+        </div>
+
+    </fieldset>
+</form>

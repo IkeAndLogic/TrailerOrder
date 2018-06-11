@@ -18,8 +18,8 @@ else
         @foreach (var order in Model.Orders)
         {
             <div>
-                <input type="checkbox" name="orderID" id="@order.OrderID" value="@order.OrderID">
-                <label for=" @order.OrderID">@order.OrderNumber </label>
+                <input type="checkbox" name="orderIds" id="@order.OrderID" value="@order.OrderID">
+                <label for=" @order.OrderID">@order.OrderNumber &nbsp; @order.OrderStatus</label>
             </div>
         }
         <input type="submit" value=" Remove Selected Order" /><br>

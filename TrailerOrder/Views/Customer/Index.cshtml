@@ -1,0 +1,46 @@
+﻿@model List<TrailerOrder.Models.Customer>
+
+@{
+    ViewData["Title"] = "All Customers";
+}
+
+<br />
+@if (Model.Count == 0)
+{
+    <p> No order added yet!</p>
+}
+
+else
+{
+
+    <div class="container">
+        <h2>All Customers </h2>
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>
+                        Customer Name
+                    </th>
+                </tr>
+            </thead>
+
+
+
+            <tbody>
+                @foreach (var customer in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Customer" asp-action="CustomerInfo" asp-route-id="@customer.CustomerID"> @customer.CustomerName</a>
+                </td>
+            </tr>
+        }
+            <tbody>
+        </table>
+    </div>
+
+
+}
+<p> <a asp-controller="Customer" asp-action="Add"> Add Customer</a> </p>

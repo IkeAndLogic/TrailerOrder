@@ -1,26 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using TrailerOrder.Models;
 
 namespace TrailerOrder.ViewModels
 {
-    public class AddOrderViewModel
+    public class EditOrderViewModel
     {
-        [Required(ErrorMessage = "Must Provide Order Number")]
-        public string OrderNumber { get; set; }
-
-
+        public Order Order { get; set; }
 
         public int TrailerID { get; set; }
-
         public List<SelectListItem> TrailersForLoad { get; set; }
 
-        //[Required]
-        //[Display(Name = "Customer")]
         public int CustomerID { get; set; }
         public List<SelectListItem> CustomersOrder { get; set; }
 
@@ -28,34 +21,15 @@ namespace TrailerOrder.ViewModels
 
 
 
-
-        public AddOrderViewModel()
+        public EditOrderViewModel()
         {
         }
 
-        /*
-        public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad)
-        {
 
-            TrailersForLoad = new List<SelectListItem>();
-
-            foreach (var trailer in trailersForLoad)
-
-            {
-                TrailersForLoad.Add(new SelectListItem
-
-                {
-                    Value = (trailer.TrailerID).ToString(),
-                    Text = trailer.TrailerNumber
-                });
-            }
-
-        }
-        */
-
+        
 
         // this constructor takes two parameters for Trailer and Customer class to make it avaiable to the order form
-        public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
+        public EditOrderViewModel(IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
         {
 
             TrailersForLoad = new List<SelectListItem>();
@@ -86,11 +60,9 @@ namespace TrailerOrder.ViewModels
                 });
             };
 
-
-
-
-
         }
+
+
 
     }
 }

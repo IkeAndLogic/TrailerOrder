@@ -31,7 +31,7 @@ namespace TrailerOrder.Controllers
         {
             //Order list will populate all orders and include the Trailer object as well
             //the Trailer object is necessary to access the trailer number attached to the order 
-            List<Order> orders = context.Orders.Include(c => c.TrailerForLoad).ToList();
+            List<Order> orders = context.Orders.Include(t => t.TrailerForLoad).Include(c => c.CustomerOrders).ToList();
 
             return View(orders);
         }
@@ -39,11 +39,14 @@ namespace TrailerOrder.Controllers
 
         public IActionResult Add()
         {
-            // passes in the list of available trailers in the order form
+            // holds in the list of available trailers 
             IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Available").ToList();
 
+            // to hold a list of customers in the the Customer table 
+            IList<Customer> customerOrder = context.Customers.ToList();
 
-            AddOrderViewModel addOrderViewModel = new AddOrderViewModel(trailerForLoad);
+            // passes both lists to the AddOrderViewModel constructor to make the available in the form
+            AddOrderViewModel addOrderViewModel = new AddOrderViewModel(trailerForLoad, customerOrder);
 
 
 
@@ -61,7 +64,9 @@ namespace TrailerOrder.Controllers
                     OrderNumber = addOrderViewModel.OrderNumber,
                     
                     //matches the 
-                    TrailerForLoad = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single()
+                    TrailerForLoad = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single(),
+                    CustomerOrders = context.Customers.Single(x => x.CustomerID== addOrderViewModel.CustomerID)
+
                 };
 
                 context.Orders.Add(newOrder);
@@ -107,14 +112,51 @@ namespace TrailerOrder.Controllers
         {
             foreach (int orderId in orderIds)
             {
-                Order removeOrder = context.Orders.Where(c => c.OrderID == orderId).Single();
-                //trailerSelected.Status = "Available";
-                //trailerSelected = context.Trailers.Where(x => x.TrailerID == removeOrderViewModel.TrailerID).Single();
+                Order removeOrder = context.Orders.Include(t => t.TrailerForLoad).ToList().Single(c => c.OrderID == orderId);
+                removeOrder.TrailerForLoad.TrailerStatus = "Available";
                 context.Orders.Remove(removeOrder);
             }
             context.SaveChanges();
             return Redirect("/");
         }
+
+
+
+        public IActionResult Edit(int id)
+        {
+
+            Order orderToEdit = context.Orders.Include(c => c.TrailerForLoad).ToList().Single(o => o.OrderID == id);
+
+            System.Diagnostics.Debug.WriteLine(orderToEdit.OrderNumber);
+            // holds in the list of available trailers including the one that is already assigned to it 
+            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Available"||c.TrailerID == orderToEdit.TrailerForLoadID).ToList();
+
+            // to hold a list of customers in the the Customer table 
+            IList<Customer> customerOrder = context.Customers.ToList();
+
+            // passes both lists to the EditOrderViewModel constructor to make the available in the form
+            EditOrderViewModel editOrderViewModel = new EditOrderViewModel(trailerForLoad, customerOrder);
+
+            return View(editOrderViewModel);
+
+             //return View(orderToEdit);
+
+
+
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Order orderToEdit)
+        {
+            //EditOrderViewModel editOrderViewModel = new EditOrderViewModel(context.Orders.ToList());
+
+            return View();
+
+        }
+
+
+
+
 
     }
 }

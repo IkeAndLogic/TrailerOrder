@@ -15,13 +15,20 @@ namespace TrailerOrder.Models
 
 
         //has a one to one relationship with Trailer
+        public int TrailerForLoadID { get; set; }
         public virtual Trailer TrailerForLoad { get; set; }
-        //public Trailer TrailerID { get; set; }
+
+       
+        // foreign key will allow us reference the specific customer a particular order belongs to within the
+        //database. Because of the one to many relationship we need to be able to store the foreign key as an identifier
+        // in the "Order" table to identify the customer a particular order belongs to
+        public int CustomerOrdersID { get; set;}
+        // navigational property for  the "Customer" Class
+        public virtual Customer CustomerOrders { get; set; }
 
         public Order()
         {
             OrderStatus = "Available";
-            
         }
 
     }

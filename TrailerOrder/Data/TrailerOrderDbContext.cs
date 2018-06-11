@@ -12,13 +12,14 @@ namespace TrailerOrder.Data
 
         
 
-        //this DbSet will be used to interact with Tractor Database
+        //this DbSet will be used to interact with Tractor table
         public DbSet<Trailer> Trailers { get; set; }
 
-        
-
-        //this DbSet will be used to interact with Order Database
+        //this DbSet will be used to interact with Order table
         public DbSet<Order> Orders { get; set; }
+
+        //this DbSet will be used to interact with Customer table
+        public DbSet<Customer> Customers { get; set; }
 
         public TrailerOrderDbContext(DbContextOptions<TrailerOrderDbContext> options)
             : base(options)
@@ -29,7 +30,7 @@ namespace TrailerOrder.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.Entity<EmployeeWorkDayData>().HasKey(t => new { t.EmployeeWorkDayID, t.EmployeeID});
+            
 
 
         }

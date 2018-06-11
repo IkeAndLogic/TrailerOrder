@@ -5,10 +5,28 @@ using System.Collections.Generic;
 
 namespace TrailerOrder.Migrations
 {
-    public partial class initialCreate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    City = table.Column<string>(nullable: true),
+                    CustomerName = table.Column<string>(nullable: true),
+                    State = table.Column<string>(nullable: true),
+                    StreetName = table.Column<string>(nullable: true),
+                    StreetNumber = table.Column<string>(nullable: true),
+                    ZipCode = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Trailers",
                 columns: table => new
@@ -30,33 +48,47 @@ namespace TrailerOrder.Migrations
                 {
                     OrderID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CustomerOrdersID = table.Column<int>(nullable: false),
                     OrderNumber = table.Column<string>(nullable: true),
                     OrderStatus = table.Column<string>(nullable: true),
-                    TrailerForLoadTrailerID = table.Column<int>(nullable: true)
+                    TrailerForLoadID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.OrderID);
                     table.ForeignKey(
-                        name: "FK_Orders_Trailers_TrailerForLoadTrailerID",
-                        column: x => x.TrailerForLoadTrailerID,
+                        name: "FK_Orders_Customers_CustomerOrdersID",
+                        column: x => x.CustomerOrdersID,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Trailers_TrailerForLoadID",
+                        column: x => x.TrailerForLoadID,
                         principalTable: "Trailers",
                         principalColumn: "TrailerID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_TrailerForLoadTrailerID",
+                name: "IX_Orders_CustomerOrdersID",
                 table: "Orders",
-                column: "TrailerForLoadTrailerID",
-                unique: true,
-                filter: "[TrailerForLoadTrailerID] IS NOT NULL");
+                column: "CustomerOrdersID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TrailerForLoadID",
+                table: "Orders",
+                column: "TrailerForLoadID",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Trailers");

@@ -20,22 +20,47 @@ namespace TrailerOrder.Migrations
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("TrailerOrder.Models.Customer", b =>
+                {
+                    b.Property<int>("CustomerID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("City");
+
+                    b.Property<string>("CustomerName");
+
+                    b.Property<string>("State");
+
+                    b.Property<string>("StreetName");
+
+                    b.Property<string>("StreetNumber");
+
+                    b.Property<string>("ZipCode");
+
+                    b.HasKey("CustomerID");
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("TrailerOrder.Models.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CustomerOrdersID");
+
                     b.Property<string>("OrderNumber");
 
                     b.Property<string>("OrderStatus");
 
-                    b.Property<int?>("TrailerForLoadTrailerID");
+                    b.Property<int>("TrailerForLoadID");
 
                     b.HasKey("OrderID");
 
-                    b.HasIndex("TrailerForLoadTrailerID")
-                        .IsUnique()
-                        .HasFilter("[TrailerForLoadTrailerID] IS NOT NULL");
+                    b.HasIndex("CustomerOrdersID");
+
+                    b.HasIndex("TrailerForLoadID")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -58,9 +83,15 @@ namespace TrailerOrder.Migrations
 
             modelBuilder.Entity("TrailerOrder.Models.Order", b =>
                 {
+                    b.HasOne("TrailerOrder.Models.Customer", "CustomerOrders")
+                        .WithMany("CustomerOrders")
+                        .HasForeignKey("CustomerOrdersID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("TrailerOrder.Models.Trailer", "TrailerForLoad")
-                        .WithOne("orderforTrailer")
-                        .HasForeignKey("TrailerOrder.Models.Order", "TrailerForLoadTrailerID");
+                        .WithOne("OrderforTrailer")
+                        .HasForeignKey("TrailerOrder.Models.Order", "TrailerForLoadID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
