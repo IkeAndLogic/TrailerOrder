@@ -20,9 +20,10 @@ else
             <thead>
                 <tr>
                     <th> Order Number</th>
+                    <th> Customer Name</th>
                     <th> Trailers</th>
                     <th> Order Status</th>
-                     <th> Trailer Status</th>
+                    <th> Trailer Status</th>
                 </tr>
             </thead>
 
@@ -34,6 +35,9 @@ else
                         <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID"> @order.OrderNumber</a>
                     </td>
 
+                    <td>
+                        <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.CustomerOrders.CustomerName</a>
+                    </td>
 
                     <td>
                         <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.TrailerForLoad.TrailerNumber </a>
@@ -44,6 +48,12 @@ else
                     <td>
                         <a asp-controller="Order" asp-action="OrderInfo" asp-route-id="@order.OrderID">  @order.TrailerForLoad.TrailerStatus </a>
                     </td>
+
+
+                    <td>
+                        <a asp-controller="Order" asp-action="Edit"> <input type="submit" value="Edit" name="Edit" /> </a>
+                    </td>
+
                 </tr>
                 }
             <tbody>

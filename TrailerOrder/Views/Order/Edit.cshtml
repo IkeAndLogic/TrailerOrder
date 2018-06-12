@@ -10,25 +10,21 @@
     <fieldset>
 
         <div class="form-group">
-            <label asp-for="Order.OrderNumber">Order number </label>
-            <input class="form-control" asp-for="Order.OrderNumber" />
-            <span asp-validation-for="Order.OrderNumber"></span>
+            <label asp-for="Order.OrderID">Order number </label>
+            <input class="form-control" asp-for="Order.OrderID" />
 
         </div>
 
 
         <div class="form-group">
-            <label asp-for="TrailerID">Trailer</label>
-            @*@Html.DropDownListFor(x => x.TrailerID, Model.TrailersForLoad)*@
-            <select asp-for="TrailerID" asp-items="Model.TrailersForLoad"></select>
-            <span asp-validation-for="TrailerID"></span>
+            <label asp-for="Trailer.TrailerID">Trailer</label>
+            <select asp-for="Trailer.TrailerID" asp-items="Model.TrailersForLoad"></select>
         </div>
 
 
         <div class="form-group">
-            <label asp-for="CustomerID">Customers Name</label>
-            <select asp-for="CustomerID" asp-items="Model.CustomersOrder"></select>
-            <span asp-validation-for="CustomerID"></span>
+            <label asp-for="Customer.CustomerID">Customers Name</label>
+            <select asp-for="Customer.CustomerID" asp-items="Model.CustomersOrder"></select>
         </div>
 
 

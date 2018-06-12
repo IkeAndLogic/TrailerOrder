@@ -11,10 +11,15 @@ namespace TrailerOrder.ViewModels
     {
         public Order Order { get; set; }
 
-        public int TrailerID { get; set; }
+        public Customer Customer { get; set; }
+
+       public Trailer Trailer { get; set; }
+
+        
+        //public int TrailerID { get; set; }
         public List<SelectListItem> TrailersForLoad { get; set; }
 
-        public int CustomerID { get; set; }
+        //public int CustomerID { get; set; }
         public List<SelectListItem> CustomersOrder { get; set; }
 
 
@@ -29,7 +34,7 @@ namespace TrailerOrder.ViewModels
         
 
         // this constructor takes two parameters for Trailer and Customer class to make it avaiable to the order form
-        public EditOrderViewModel(IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
+        public EditOrderViewModel( IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
         {
 
             TrailersForLoad = new List<SelectListItem>();
@@ -65,4 +70,5 @@ namespace TrailerOrder.ViewModels
 
 
     }
-}
+    
+    }

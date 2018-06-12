@@ -125,11 +125,14 @@ namespace TrailerOrder.Controllers
         public IActionResult Edit(int id)
         {
 
-            Order orderToEdit = context.Orders.Include(c => c.TrailerForLoad).ToList().Single(o => o.OrderID == id);
+            //Order orderToEdit = context.Orders.Include(c => c.TrailerForLoad).Include(c => c.CustomerOrders).ToList().Single(o => o.OrderID == id);
 
-            System.Diagnostics.Debug.WriteLine(orderToEdit.OrderNumber);
+
+            Order orderToEdit = context.Orders.FirstOrDefault(x=> x.OrderID==id);
+
+            //System.Diagnostics.Debug.WriteLine(orderToEdit.OrderNumber);
             // holds in the list of available trailers including the one that is already assigned to it 
-            IList<Trailer> trailerForLoad = context.Trailers.Where(c => c.TrailerStatus == "Available"||c.TrailerID == orderToEdit.TrailerForLoadID).ToList();
+            IList<Trailer> trailerForLoad = context.Trailers.ToList();
 
             // to hold a list of customers in the the Customer table 
             IList<Customer> customerOrder = context.Customers.ToList();
@@ -137,9 +140,9 @@ namespace TrailerOrder.Controllers
             // passes both lists to the EditOrderViewModel constructor to make the available in the form
             EditOrderViewModel editOrderViewModel = new EditOrderViewModel(trailerForLoad, customerOrder);
 
+
             return View(editOrderViewModel);
 
-             //return View(orderToEdit);
 
 
 
