@@ -6,19 +6,17 @@ using TrailerOrder.Models;
 
 namespace TrailerOrder.ViewModels
 {
-    public class RemoveCustomerViewModel
+    public class RemoveEmployeeViewModel
     {
 
-        public List<Customer> Customers { get; set; }
+        public List<Employee> Employees { get; set; }
 
 
 
-        public RemoveCustomerViewModel(List<Customer> customers)
+        public RemoveEmployeeViewModel(List<Employee> employee)
         {
-            Customers = customers;
+            Employees = employee;
         }
-
-
 
     }
 }

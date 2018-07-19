@@ -14,6 +14,7 @@ namespace TrailerOrder.ViewModels
         public string OrderNumber { get; set; }
 
 
+        public DateTime DueDate { get; set; }
 
         public int TrailerID { get; set; }
 

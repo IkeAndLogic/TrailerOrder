@@ -9,17 +9,21 @@ namespace TrailerOrder.ViewModels
 {
     public class EditOrderViewModel
     {
-        public Order Order { get; set; }
 
-        public Customer Customer { get; set; }
+        //[Required(ErrorMessage = "Must Provide Order Number")]
+        public string OrderNumber { get; set; }
+        public int OrderID { get; set; }
 
-       public Trailer Trailer { get; set; }
+        public int CustomerOrdersID { get; set; }
 
-        
-        //public int TrailerID { get; set; }
+        public int TrailerForLoadID { get; set; }
+
+       // public Order Order { get; set; }
+
+        //public int TrailerForLoadID { get; set; }
         public List<SelectListItem> TrailersForLoad { get; set; }
 
-        //public int CustomerID { get; set; }
+        //public int CustomerOrdersID { get; set; }
         public List<SelectListItem> CustomersOrder { get; set; }
 
 
@@ -31,11 +35,16 @@ namespace TrailerOrder.ViewModels
         }
 
 
-        
+
 
         // this constructor takes two parameters for Trailer and Customer class to make it avaiable to the order form
-        public EditOrderViewModel( IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
+        public EditOrderViewModel(Order orderToEdit, IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)
         {
+            OrderNumber = orderToEdit.OrderNumber;
+            CustomerOrdersID = orderToEdit.CustomerOrdersID;
+            OrderID = orderToEdit.OrderID;
+            TrailerForLoadID = orderToEdit.TrailerForLoadID;
+
 
             TrailersForLoad = new List<SelectListItem>();
 
@@ -68,7 +77,6 @@ namespace TrailerOrder.ViewModels
         }
 
 
+    }
 
-    }
-    
-    }
+}

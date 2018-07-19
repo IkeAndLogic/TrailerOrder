@@ -1,0 +1,60 @@
+﻿@model List<TrailerOrder.Models.Employee>
+
+@{
+    ViewData["Title"] = "All Employees";
+}
+
+<br />
+@if (Model.Count == 0)
+{
+    <p> No Employee added yet!</p>
+}
+
+else
+{
+
+    <div class="container">
+        <h2>All Employees </h2>
+
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>
+                        Employees
+                    </th>
+                </tr>
+            </thead>
+
+
+
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                <tr>
+                    <td>
+                        <a asp-controller="Employee" asp-action="EmployeeInfo" asp-route-id="@employee.EmployeeID"> @employee.FirstName @employee.LastName @employee.DOB.ToShortDateString()</a>
+                    </td>
+
+
+                    @if(employee.OrderID != 0){
+                    <td>
+                        <a asp-controller="Employee" asp-action="EmployeeInfo" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
+                    </td>
+                    }
+
+
+                    <td>
+                        <a asp-controller="Employee" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
+                    </td>
+
+
+                </tr>
+                }
+            <tbody>
+        </table>
+    </div>
+
+
+}
+<p> <a asp-controller="Employee" asp-action="Add"> Add Employee</a> </p>

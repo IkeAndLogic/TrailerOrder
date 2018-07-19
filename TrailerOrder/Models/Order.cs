@@ -26,9 +26,25 @@ namespace TrailerOrder.Models
         // navigational property for  the "Customer" Class
         public virtual Customer CustomerOrders { get; set; }
 
+
+        //has a one to Many relationship with Driver
+        public virtual Employee Driver { get; set; }
+
+
+        public DateTime DueDate { get; set; }
+        public DateTime DateDelivered { get; set; }
+        public DateTime DateAssigned { get; set; }
+
+        public bool Completed { get; set; }
+
         public Order()
         {
             OrderStatus = "Available";
+            
+            Completed = false;
+            Driver = null;
+
+
         }
 
     }

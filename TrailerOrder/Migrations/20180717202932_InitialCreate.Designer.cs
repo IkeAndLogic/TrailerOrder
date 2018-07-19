@@ -11,7 +11,7 @@ using TrailerOrder.Data;
 namespace TrailerOrder.Migrations
 {
     [DbContext(typeof(TrailerOrderDbContext))]
-    [Migration("20180610143816_InitialCreate")]
+    [Migration("20180717202932_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,12 +43,44 @@ namespace TrailerOrder.Migrations
                     b.ToTable("Customers");
                 });
 
+            modelBuilder.Entity("TrailerOrder.Models.Employee", b =>
+                {
+                    b.Property<int>("EmployeeID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("DOB");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<bool>("LoginStatus");
+
+                    b.Property<int>("OrderID");
+
+                    b.Property<string>("WorkStatus");
+
+                    b.HasKey("EmployeeID");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("TrailerOrder.Models.Order", b =>
                 {
                     b.Property<int>("OrderID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Completed");
+
                     b.Property<int>("CustomerOrdersID");
+
+                    b.Property<DateTime>("DateAssigned");
+
+                    b.Property<DateTime>("DateDelivered");
+
+                    b.Property<int?>("DriverEmployeeID");
+
+                    b.Property<DateTime>("DueDate");
 
                     b.Property<string>("OrderNumber");
 
@@ -59,6 +91,8 @@ namespace TrailerOrder.Migrations
                     b.HasKey("OrderID");
 
                     b.HasIndex("CustomerOrdersID");
+
+                    b.HasIndex("DriverEmployeeID");
 
                     b.HasIndex("TrailerForLoadID")
                         .IsUnique();
@@ -88,6 +122,10 @@ namespace TrailerOrder.Migrations
                         .WithMany("CustomerOrders")
                         .HasForeignKey("CustomerOrdersID")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TrailerOrder.Models.Employee", "Driver")
+                        .WithMany("Order")
+                        .HasForeignKey("DriverEmployeeID");
 
                     b.HasOne("TrailerOrder.Models.Trailer", "TrailerForLoad")
                         .WithOne("OrderforTrailer")

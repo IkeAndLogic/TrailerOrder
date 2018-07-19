@@ -62,7 +62,8 @@ namespace TrailerOrder.Controllers
                 Order newOrder = new Order()
                 {
                     OrderNumber = addOrderViewModel.OrderNumber,
-                    
+                    DueDate = addOrderViewModel.DueDate,
+                    Driver = null,
                     //matches the 
                     TrailerForLoad = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single(),
                     CustomerOrders = context.Customers.Single(x => x.CustomerID== addOrderViewModel.CustomerID)
@@ -77,6 +78,7 @@ namespace TrailerOrder.Controllers
                 //newOrder.TrailerForLoad = trailerSelected;
 
                 trailerSelected.TrailerStatus = "Unavailable";
+
                
                 context.SaveChanges();
 
@@ -120,46 +122,52 @@ namespace TrailerOrder.Controllers
             return Redirect("/");
         }
 
-
-
         public IActionResult Edit(int id)
         {
+            //ViewData["Title"]="Edit";
 
-            //Order orderToEdit = context.Orders.Include(c => c.TrailerForLoad).Include(c => c.CustomerOrders).ToList().Single(o => o.OrderID == id);
+            Order orderToEdit = context.Orders.FirstOrDefault(x => x.OrderID==id) ;
 
-
-            Order orderToEdit = context.Orders.FirstOrDefault(x=> x.OrderID==id);
-
-            //System.Diagnostics.Debug.WriteLine(orderToEdit.OrderNumber);
             // holds in the list of available trailers including the one that is already assigned to it 
-            IList<Trailer> trailerForLoad = context.Trailers.ToList();
+            IList<Trailer> trailerForLoad = context.Trailers.Where(x => x.TrailerStatus == "Available" || x.TrailerID == orderToEdit.TrailerForLoadID).ToList();
 
             // to hold a list of customers in the the Customer table 
             IList<Customer> customerOrder = context.Customers.ToList();
 
-            // passes both lists to the EditOrderViewModel constructor to make the available in the form
-            EditOrderViewModel editOrderViewModel = new EditOrderViewModel(trailerForLoad, customerOrder);
-
+            // passes Order Object and both lists to the EditOrderViewModel constructor to make the available in the form
+            EditOrderViewModel editOrderViewModel = new EditOrderViewModel(orderToEdit, trailerForLoad, customerOrder);
 
             return View(editOrderViewModel);
-
-
-
-
         }
 
         [HttpPost]
-        public IActionResult Edit(Order orderToEdit)
+        public IActionResult Edit(EditOrderViewModel editOrderViewModel)
         {
-            //EditOrderViewModel editOrderViewModel = new EditOrderViewModel(context.Orders.ToList());
 
-            return View();
+            //trailerSelected = context.Trailers.Where(x => x.TrailerID == editOrderViewModel.TrailerForLoadID).Single();
 
+            Order order= context.Orders.FirstOrDefault(o => o.OrderID==editOrderViewModel.OrderID);
+            Trailer newTrailer = context.Trailers.FirstOrDefault(t => t.TrailerID == editOrderViewModel.TrailerForLoadID);
+            Trailer oldTrailer = context.Trailers.FirstOrDefault(t => t.TrailerID == order.TrailerForLoadID);
+
+
+            order.OrderNumber = editOrderViewModel.OrderNumber;
+            order.CustomerOrdersID = editOrderViewModel.CustomerOrdersID;
+            //if (order.TrailerForLoadID != trailerSelected.TrailerID){
+            //   order.TrailerForLoad.TrailerStatus = "Available";
+            //   trailerSelected.TrailerStatus = "Unavailable";
+            //}
+            if (oldTrailer.TrailerID!=newTrailer.TrailerID)
+            {
+                oldTrailer.TrailerStatus = "Available";
+                newTrailer.TrailerStatus = "Unavailable";
+            }
+            order.TrailerForLoadID = newTrailer.TrailerID; //editOrderViewModel.TrailerForLoadID;
+            //save changes
+            context.SaveChanges();
+            return Redirect("/");
+            
         }
-
-
-
-
 
     }
 }

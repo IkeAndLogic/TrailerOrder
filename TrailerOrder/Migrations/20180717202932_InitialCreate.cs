@@ -28,6 +28,24 @@ namespace TrailerOrder.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employees",
+                columns: table => new
+                {
+                    EmployeeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DOB = table.Column<DateTime>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    LoginStatus = table.Column<bool>(nullable: false),
+                    OrderID = table.Column<int>(nullable: false),
+                    WorkStatus = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trailers",
                 columns: table => new
                 {
@@ -48,7 +66,12 @@ namespace TrailerOrder.Migrations
                 {
                     OrderID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Completed = table.Column<bool>(nullable: false),
                     CustomerOrdersID = table.Column<int>(nullable: false),
+                    DateAssigned = table.Column<DateTime>(nullable: false),
+                    DateDelivered = table.Column<DateTime>(nullable: false),
+                    DriverEmployeeID = table.Column<int>(nullable: true),
+                    DueDate = table.Column<DateTime>(nullable: false),
                     OrderNumber = table.Column<string>(nullable: true),
                     OrderStatus = table.Column<string>(nullable: true),
                     TrailerForLoadID = table.Column<int>(nullable: false)
@@ -63,6 +86,12 @@ namespace TrailerOrder.Migrations
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Orders_Employees_DriverEmployeeID",
+                        column: x => x.DriverEmployeeID,
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Orders_Trailers_TrailerForLoadID",
                         column: x => x.TrailerForLoadID,
                         principalTable: "Trailers",
@@ -74,6 +103,11 @@ namespace TrailerOrder.Migrations
                 name: "IX_Orders_CustomerOrdersID",
                 table: "Orders",
                 column: "CustomerOrdersID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_DriverEmployeeID",
+                table: "Orders",
+                column: "DriverEmployeeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_TrailerForLoadID",
@@ -89,6 +123,9 @@ namespace TrailerOrder.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
 
             migrationBuilder.DropTable(
                 name: "Trailers");
