@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TrailerOrder.Data;
 using TrailerOrder.Models;
 using TrailerOrder.ViewModels;
@@ -39,9 +40,6 @@ namespace TrailerOrder.Controllers
         //Add
         public IActionResult Add()
         {
-
-            //Employee list will populate all Employee object is necessary to access the Employee Data
-            //List<Employee> employees = context.Employees.ToList();
             AddEmployeeViewModel addEmployeeViewModel = new AddEmployeeViewModel();
             return View(addEmployeeViewModel);
         }
@@ -56,7 +54,7 @@ namespace TrailerOrder.Controllers
                 {
                     FirstName = addEmployeeViewModel.FirstName,
                     LastName = addEmployeeViewModel.LastName,
-                    DOB = addEmployeeViewModel.DOB
+                    DOB = addEmployeeViewModel.DOB,                   
                 };
 
                 context.Employees.Add(newEmployee);
@@ -65,10 +63,6 @@ namespace TrailerOrder.Controllers
             };
                 return View(addEmployeeViewModel);
         }
-
-
-
-
 
 
         //Remove
@@ -97,46 +91,6 @@ namespace TrailerOrder.Controllers
         }
 
 
-        public IActionResult AssignOrder(int id)
-        {
-
-            Employee driverToAssignOrder = context.Employees.FirstOrDefault(x => x.EmployeeID == id);
-
-            IList<Order> availableOrders = context.Orders.Where(x => x.OrderStatus == "Available").ToList();
-
-            AssignOrderViewModel assignOrderViewModel = new AssignOrderViewModel(driverToAssignOrder, availableOrders);
-
-            return View(assignOrderViewModel);
-        }
-
-
-        [HttpPost]
-        public IActionResult AssignOrder(AssignOrderViewModel assignOrderViewModel)
-        {
-
-            Employee driver = context.Employees.FirstOrDefault(o => o.EmployeeID == assignOrderViewModel.EmployeeID);
-            //Trailer newTrailer = context.Trailers.FirstOrDefault(t => t.TrailerID == assignOrderViewModel.TrailerID);
-
-            //driver.OrderNumber = assignOrderViewModel.OrderNumber;
-
-
-
-
-            Order orderToBeAssigned = context.Orders.FirstOrDefault(t => t.OrderNumber == assignOrderViewModel.OrderNumber);
-
-            if (orderToBeAssigned != null)
-            {
-                driver.OrderID = orderToBeAssigned.OrderID;
-                orderToBeAssigned.OrderStatus = "Unavailable";
-
-            }
-
-
-            //orderToBeAssigned.OrderStatus = "Unavailable";
-              context.SaveChanges();
-
-            return Redirect("/Employee");
-        }
 
     }
 }

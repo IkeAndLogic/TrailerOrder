@@ -37,7 +37,6 @@ namespace TrailerOrder.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     LoginStatus = table.Column<bool>(nullable: false),
-                    OrderID = table.Column<int>(nullable: false),
                     WorkStatus = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -70,8 +69,8 @@ namespace TrailerOrder.Migrations
                     CustomerOrdersID = table.Column<int>(nullable: false),
                     DateAssigned = table.Column<DateTime>(nullable: false),
                     DateDelivered = table.Column<DateTime>(nullable: false),
-                    DriverEmployeeID = table.Column<int>(nullable: true),
                     DueDate = table.Column<DateTime>(nullable: false),
+                    EmployeeID = table.Column<int>(nullable: true),
                     OrderNumber = table.Column<string>(nullable: true),
                     OrderStatus = table.Column<string>(nullable: true),
                     TrailerForLoadID = table.Column<int>(nullable: false)
@@ -86,8 +85,8 @@ namespace TrailerOrder.Migrations
                         principalColumn: "CustomerID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Employees_DriverEmployeeID",
-                        column: x => x.DriverEmployeeID,
+                        name: "FK_Orders_Employees_EmployeeID",
+                        column: x => x.EmployeeID,
                         principalTable: "Employees",
                         principalColumn: "EmployeeID",
                         onDelete: ReferentialAction.Restrict);
@@ -105,9 +104,9 @@ namespace TrailerOrder.Migrations
                 column: "CustomerOrdersID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DriverEmployeeID",
+                name: "IX_Orders_EmployeeID",
                 table: "Orders",
-                column: "DriverEmployeeID");
+                column: "EmployeeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_TrailerForLoadID",

@@ -37,18 +37,24 @@ else
                     </td>
 
 
-                    @if(employee.OrderID != 0){
+
                     <td>
                         <a asp-controller="Employee" asp-action="EmployeeInfo" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
                     </td>
-                    }
+
 
 
                     <td>
-                        <a asp-controller="Employee" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
+                        <a asp-controller="Order" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
                     </td>
 
 
+                    @*@if{ employee.LoginStatus == true && @employee.WorkStatus == "Unavailable"*@ 
+
+                    <td>
+                        <a asp-controller="Order" asp-action="UnassignOrder" asp-route-id="@employee.EmployeeID"> Unassign order</a>
+                    </td>
+                    
                 </tr>
                 }
             <tbody>

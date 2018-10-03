@@ -55,8 +55,6 @@ namespace TrailerOrder.Migrations
 
                     b.Property<bool>("LoginStatus");
 
-                    b.Property<int>("OrderID");
-
                     b.Property<string>("WorkStatus");
 
                     b.HasKey("EmployeeID");
@@ -77,9 +75,9 @@ namespace TrailerOrder.Migrations
 
                     b.Property<DateTime>("DateDelivered");
 
-                    b.Property<int?>("DriverEmployeeID");
-
                     b.Property<DateTime>("DueDate");
+
+                    b.Property<int?>("EmployeeID");
 
                     b.Property<string>("OrderNumber");
 
@@ -91,7 +89,7 @@ namespace TrailerOrder.Migrations
 
                     b.HasIndex("CustomerOrdersID");
 
-                    b.HasIndex("DriverEmployeeID");
+                    b.HasIndex("EmployeeID");
 
                     b.HasIndex("TrailerForLoadID")
                         .IsUnique();
@@ -124,7 +122,7 @@ namespace TrailerOrder.Migrations
 
                     b.HasOne("TrailerOrder.Models.Employee", "Driver")
                         .WithMany("Order")
-                        .HasForeignKey("DriverEmployeeID");
+                        .HasForeignKey("EmployeeID");
 
                     b.HasOne("TrailerOrder.Models.Trailer", "TrailerForLoad")
                         .WithOne("OrderforTrailer")

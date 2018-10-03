@@ -29,9 +29,10 @@ namespace TrailerOrder.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            //Order list will populate all orders and include the Trailer object as well
-            //the Trailer object is necessary to access the trailer number attached to the order 
+            //Order list will populate all orders and include the Trailer object as well as
+            //the Trailer object necessary to access the trailer number attached to the order 
             List<Order> orders = context.Orders.Include(t => t.TrailerForLoad).Include(c => c.CustomerOrders).ToList();
+            //List<Order> orders = context.Orders.Include(t => t.TrailerForLoad).Include(c => c.CustomerOrders).Include(e => e.Driver).ToList();
 
             return View(orders);
         }
@@ -63,10 +64,11 @@ namespace TrailerOrder.Controllers
                 {
                     OrderNumber = addOrderViewModel.OrderNumber,
                     DueDate = addOrderViewModel.DueDate,
-                    Driver = null,
+                    //Driver = null,
                     //matches the 
                     TrailerForLoad = context.Trailers.Where(x => x.TrailerID == addOrderViewModel.TrailerID).Single(),
-                    CustomerOrders = context.Customers.Single(x => x.CustomerID== addOrderViewModel.CustomerID)
+                    CustomerOrders = context.Customers.Single(x => x.CustomerID== addOrderViewModel.CustomerID),
+                    //Driver = context.Employees.ToList()
 
                 };
 
@@ -169,6 +171,91 @@ namespace TrailerOrder.Controllers
             
         }
 
+
+        public IActionResult AssignOrder(int id)
+        {
+
+            Employee driverToAssignOrder = context.Employees.FirstOrDefault(x => x.EmployeeID == id);
+
+            IList<Order> availableOrders = context.Orders.Where(x => x.OrderStatus == "Available").ToList();
+
+            AssignOrderViewModel assignOrderViewModel = new AssignOrderViewModel(driverToAssignOrder, availableOrders);
+
+            return View(assignOrderViewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult AssignOrder(AssignOrderViewModel assignOrderViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                // driver object is matched with Employee id from the viewmodel
+                Employee driver = context.Employees.Where(o => o.EmployeeID == assignOrderViewModel.EmployeeID).Single();
+
+                driver.WorkStatus = "Unavailable"; 
+
+                //Order object is matched with the order id from the viewmodel
+                Order orderToBeAssigned = context.Orders.FirstOrDefault(o => o.OrderID == assignOrderViewModel.OrderID);
+
+                //System.Diagnostics.Debug.WriteLine(orderToBeAssigned.OrderNumber);
+
+                if (orderToBeAssigned != null)
+                {
+                    //assigns the employee id to the order table
+                    orderToBeAssigned.EmployeeID = driver.EmployeeID;
+
+                    //marks it unavailable
+                    orderToBeAssigned.OrderStatus = "Unavailable";
+
+                }
+
+
+            }
+
+
+            context.SaveChanges();
+
+            return Redirect("/Index");
+        }
+
+
+        public IActionResult UnassignOrder(int id)
+        {
+            Order UnassignOrder = context.Orders.FirstOrDefault(x => x.EmployeeID == id);
+            Employee driver = context.Employees.Find(UnassignOrder.EmployeeID);
+
+            UnassignOrderViewModel unassignOrderViewModel = new UnassignOrderViewModel(driver, UnassignOrder);
+
+            return View(unassignOrderViewModel);
+
+
+        }
+
+
+
+            [HttpPost]
+            //[ActionName("Edit")]
+            public IActionResult UnassignOrder(UnassignOrderViewModel unassignOrderViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                Order unassignOrder = context.Orders.FirstOrDefault(x => x.EmployeeID == unassignOrderViewModel.EmployeeID);
+                Employee driver = context.Employees.Find(unassignOrder.EmployeeID);
+
+                driver.WorkStatus = "Available";
+                unassignOrder.EmployeeID = null;
+
+                unassignOrder.OrderStatus = "Available";
+
+            }
+            
+            context.SaveChanges();
+
+            return Redirect("/Index");
+        }
     }
 }
 

@@ -16,7 +16,6 @@ namespace TrailerOrder.ViewModels
         public int TrailerID { get; set; }
 
         public int OrderID { get; set; }
-        //public Order Order { get; set; }
 
         public List<SelectListItem> Orders { get; set; }
 
@@ -35,7 +34,6 @@ namespace TrailerOrder.ViewModels
 
             FirstName = driver.FirstName;
             LastName = driver.LastName;
-            OrderID = driver.OrderID;
             EmployeeID = driver.EmployeeID;
 
             Orders = new List<SelectListItem>();
