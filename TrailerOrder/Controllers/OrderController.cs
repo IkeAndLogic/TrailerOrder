@@ -217,7 +217,7 @@ namespace TrailerOrder.Controllers
 
             context.SaveChanges();
 
-            return Redirect("/Index");
+            return Redirect("/Employee");
         }
 
 
@@ -254,7 +254,7 @@ namespace TrailerOrder.Controllers
             
             context.SaveChanges();
 
-            return Redirect("/Index");
+            return Redirect("/Order");
         }
     }
 }
