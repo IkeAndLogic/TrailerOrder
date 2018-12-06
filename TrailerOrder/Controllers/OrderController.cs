@@ -124,6 +124,8 @@ namespace TrailerOrder.Controllers
             return Redirect("/");
         }
 
+
+
         public IActionResult Edit(int id)
         {
             //ViewData["Title"]="Edit";
@@ -254,7 +256,7 @@ namespace TrailerOrder.Controllers
             
             context.SaveChanges();
 
-            return Redirect("/Order");
+            return Redirect("/Employee");
         }
     }
 }

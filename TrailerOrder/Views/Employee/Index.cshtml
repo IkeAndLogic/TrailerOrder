@@ -23,6 +23,18 @@ else
                     <th>
                         Employees
                     </th>
+
+                    <th>
+                        Title
+                    </th>
+
+                    <th>
+                        Tractor
+                    </th>
+
+                    <th>
+                        Order
+                    </th>
                 </tr>
             </thead>
 
@@ -33,28 +45,43 @@ else
                 {
                 <tr>
                     <td>
-                        <a asp-controller="Employee" asp-action="EmployeeInfo" asp-route-id="@employee.EmployeeID"> @employee.FirstName @employee.LastName @employee.DOB.ToShortDateString()</a>
+                        <a asp-controller="Employee" asp-action="EmployeeDetails" asp-route-id="@employee.EmployeeID"> @employee.FirstName @employee.LastName @employee.Dob.ToShortDateString()</a>
                     </td>
 
 
 
                     <td>
-                        <a asp-controller="Employee" asp-action="EmployeeInfo" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
+                        @employee.Title
                     </td>
 
+
+                    <td>
+                        <a asp-controller="Employee" asp-action="AssignTractor" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
+                    </td>
+
+
+                    @*@if (@employee.LoginStatus == true && @employee.WorkStatus == "Available")
+        {*@
 
 
                     <td>
                         <a asp-controller="Order" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
                     </td>
+                    @*}
 
-
-                    @*@if{ employee.LoginStatus == true && @employee.WorkStatus == "Unavailable"*@ 
+        else if(@employee.LoginStatus == true && @employee.WorkStatus == "Unavailable")
+        {*@
 
                     <td>
                         <a asp-controller="Order" asp-action="UnassignOrder" asp-route-id="@employee.EmployeeID"> Unassign order</a>
                     </td>
-                    
+                    @*}*@
+
+
+
+                    <td>
+                        <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeID"> Edit</a>
+                    </td>
                 </tr>
                 }
             <tbody>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TrailerOrder.Data;
+using TrailerOrder.Repositories;
 
 namespace TrailerOrder
 {
@@ -26,6 +27,11 @@ namespace TrailerOrder
             services.AddDbContext<TrailerOrderDbContext>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
+
+            services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

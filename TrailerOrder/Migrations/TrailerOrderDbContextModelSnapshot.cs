@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 using TrailerOrder.Data;
+using TrailerOrder.Models;
 
 namespace TrailerOrder.Migrations
 {
@@ -19,6 +20,30 @@ namespace TrailerOrder.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TrailerOrder.Models.Attendance", b =>
+                {
+                    b.Property<int>("AttendanceID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("EmployeeID");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<DateTime>("TimeIn");
+
+                    b.Property<DateTime>("TimeOut");
+
+                    b.Property<DateTime>("WorkDay");
+
+                    b.HasKey("AttendanceID");
+
+                    b.ToTable("Attendances");
+                });
 
             modelBuilder.Entity("TrailerOrder.Models.Customer", b =>
                 {
@@ -47,17 +72,57 @@ namespace TrailerOrder.Migrations
                     b.Property<int>("EmployeeID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DOB");
+                    b.Property<int?>("AttendanceID");
+
+                    b.Property<string>("City");
+
+                    b.Property<DateTime>("Dob");
+
+                    b.Property<bool>("DotCompliant");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
+                    b.Property<DateTime>("LicExpire");
+
+                    b.Property<DateTime>("LicIssue");
+
+                    b.Property<string>("LicNumber");
+
                     b.Property<bool>("LoginStatus");
+
+                    b.Property<string>("MedCardNumber");
+
+                    b.Property<DateTime>("MedExpire");
+
+                    b.Property<DateTime>("MedIssue");
+
+                    b.Property<string>("MiddleName");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("PasswordConf");
+
+                    b.Property<string>("SSN");
+
+                    b.Property<string>("SsnConfirm");
+
+                    b.Property<string>("StreetName");
+
+                    b.Property<string>("StreetNumber");
+
+                    b.Property<int>("Title");
+
+                    b.Property<string>("UserName");
 
                     b.Property<string>("WorkStatus");
 
+                    b.Property<string>("ZipCode");
+
                     b.HasKey("EmployeeID");
+
+                    b.HasIndex("AttendanceID");
 
                     b.ToTable("Employees");
                 });
@@ -97,6 +162,16 @@ namespace TrailerOrder.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("TrailerOrder.Models.Tractor", b =>
+                {
+                    b.Property<int>("TractorID")
+                        .ValueGeneratedOnAdd();
+
+                    b.HasKey("TractorID");
+
+                    b.ToTable("Tractors");
+                });
+
             modelBuilder.Entity("TrailerOrder.Models.Trailer", b =>
                 {
                     b.Property<int>("TrailerID")
@@ -111,6 +186,13 @@ namespace TrailerOrder.Migrations
                     b.HasKey("TrailerID");
 
                     b.ToTable("Trailers");
+                });
+
+            modelBuilder.Entity("TrailerOrder.Models.Employee", b =>
+                {
+                    b.HasOne("TrailerOrder.Models.Attendance")
+                        .WithMany("Employee")
+                        .HasForeignKey("AttendanceID");
                 });
 
             modelBuilder.Entity("TrailerOrder.Models.Order", b =>

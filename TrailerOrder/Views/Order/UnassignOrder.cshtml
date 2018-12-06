@@ -5,7 +5,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<p> You are about to unassign order number: @Model.OrderNumber for Driver @Model.FirstName @Model.LastName </p>
+<p> You are about to unassign order number: @Model.OrderNumber for Driver @Model.FirstName @Model.LastName</p>
 
 
 <form asp-controller="Order" asp-action="UnassignOrder" method="post">
@@ -17,7 +17,6 @@
     <input type="hidden" name="OrderNumber" value=@Model.OrderNumber />
 
     <input type="hidden" name="EmployeeID" value=@Model.EmployeeID />
-    <input type="hidden" name="OrderID" value=@Model.OrderID />
 
 
 

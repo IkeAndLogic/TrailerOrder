@@ -24,6 +24,15 @@ namespace TrailerOrder.Data
         //this DbSet will be used to interact with Employee table
         public DbSet<Employee> Employees { get; set; }
 
+        //this DbSet will be used to interact with Attendance record table
+        public DbSet<Attendance> Attendances { get; set; }
+
+        ////this DbSet will be used to interact with completed Order table
+        //public DbSet<Order> CompletedOrders { get; set; }
+
+
+        //this DbSet will be used to interact with Tractor table
+        public DbSet<Tractor> Tractors { get; set; }
 
         public TrailerOrderDbContext(DbContextOptions<TrailerOrderDbContext> options)
             : base(options)

@@ -1,0 +1,90 @@
+﻿@model TrailerOrder.Models.Employee
+
+@{
+    ViewData["Employee"] = "Employee Details";
+}
+
+
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th colspan="3">Employee Details</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+            <tr>
+                <td colspan="3">
+                    Name: @Model.FirstName @Model.MiddleName @Model.LastName
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    Job Title: @Model.Title
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td colspan="3">
+                    Date of Birth: @Model.Dob
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    Address: @Model.StreetNumber @Model.StreetName @Model.City @Model.ZipCode
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="3">
+                    Employee User Name: @Model.UserName
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    License: @Model.LicNumber
+                </td>
+            
+                <td>
+                    License Date of Issuance: @Model.LicIssue.ToShortDateString()
+                </td>
+
+                <td>
+                    License Expiration Date: @Model.LicExpire.ToShortDateString()
+                </td>
+            </tr>
+
+
+
+            <tr>
+                <td>
+                    Dot Medical Card Number: @Model.MedCardNumber
+                </td>
+            
+
+                <td>
+                    Medical Card Date of Issuance: @Model.MedIssue.ToShortDateString()
+                </td>
+
+                <td>
+                    Medical Card Expiration Date: @Model.MedExpire.ToShortDateString()
+                </td>
+            </tr>
+
+        <tbody>
+    </table>
+
+    <p> <a asp-controller="Employee" asp-action="Index">Back</a> </p>
+</div>
+
+
+
