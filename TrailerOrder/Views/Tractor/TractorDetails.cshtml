@@ -1,0 +1,64 @@
+﻿@model TrailerOrder.Models.Tractor
+
+@{
+    ViewData["Title"] = "Trailer Details";
+}
+<table>
+
+    <tr>
+        <th>Tractor Number: @Model.TruckNumber</th>
+    </tr>
+
+    <tr>
+        <td>
+            Tractor Make: @Model.TractorMake
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Tractor Model: @Model.TractorModel
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            Vin Number: @Model.VinNumber
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Tractor Year: @Model.Year
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Tractor Make: @Model.TractorMake
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Registration Date: @Model.RegDate.ToShortDateString()
+        </td>
+    </tr>
+
+
+
+    <tr>
+        <td>
+            D.O.T Date: @Model.DotInp.ToShortDateString()
+        </td>
+    </tr>
+
+</table>
+
+<p> <a asp-controller="Tractor" asp-action="Index">Back</a> </p>
+
+

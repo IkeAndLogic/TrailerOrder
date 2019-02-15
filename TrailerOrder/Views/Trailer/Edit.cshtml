@@ -1,5 +1,86 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model TrailerOrder.ViewModels.EditTrailerViewModel
+
 @{
+    ViewData["Title"] = "Edit Trailer";
 }
+<h2>@ViewData["Title"]</h2>
+
+
+<form asp-controller="Trailer" asp-action="Edit" method="post">
+
+    <fieldset>
+
+        <input type="hidden" name="TrailerID" value="@Model.TrailerID" />
+
+        <div class="form-group">
+
+            <div asp-for="SerialNumber">
+                <label> Serial Number </label>
+                <input class="form-control" asp-for="SerialNumber" />
+                <span asp-validation-for="SerialNumber"></span>
+
+            </div>
+
+            <div asp-for="TrailNumber">
+                <label> Assign Trailer Number </label>
+                <input class="form-control" asp-for="TrailerNumber" />
+                <span asp-validation-for="TrailerNumber"></span>
+
+            </div>
+
+
+
+            <div asp-for="TrailerMake">
+                <label> Assign Trailer Make </label>
+                <input class="form-control" asp-for="TrailerMake" />
+                <span asp-validation-for="TrailerMake"></span>
+
+            </div>
+
+
+
+            <div asp-for="TrailerModel">
+                <label> Assign Trailer Model </label>
+                <input class="form-control" asp-for="TrailerModel" />
+                <span asp-validation-for="TrailerModel"></span>
+
+            </div>
+
+
+
+            <div asp-for="Year">
+                <label> Assign Year </label>
+                <input class="form-control" asp-for="Year" />
+                <span asp-validation-for="Year"></span>
+
+            </div>
+
+
+
+            <div asp-for="RegDate">
+                <label> Assign Registration Date </label>
+                <input class="form-control" asp-for="RegDate" />
+                <span asp-validation-for="RegDate"></span>
+
+            </div>
+
+
+
+            <div asp-for="InspDate">
+                <label> Assign Inspection Date </label>
+                <input class="form-control" asp-for="InspDate" />
+                <span asp-validation-for="InspDate"></span>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" name="submitButton" />
+        </div>
+
+    </fieldset>
+</form>
+
+<span class="label label-default" name="TodaysDate">@Model.TodaysDate</span>

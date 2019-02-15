@@ -12,10 +12,10 @@ namespace TrailerOrder.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
-        public int EmployeeID {get;set;}
-        public int TrailerID { get; set; }
+        public int? EmployeeID {get;set;}
+        //public int TrailerID { get; set; }
 
-        public int OrderID { get; set; }
+        public int? OrderID { get; set; }
 
         public List<SelectListItem> Orders { get; set; }
 

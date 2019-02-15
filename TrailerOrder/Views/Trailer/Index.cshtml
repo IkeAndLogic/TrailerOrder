@@ -22,7 +22,7 @@ else
         @foreach (var trailer in Model)
         {
             <li>
-                <a asp-controller="Trailer" asp-action="TrailerInfo" asp-route-id="@trailer.TrailerID"> @trailer.TrailerNumber </a>
+                <a asp-controller="Trailer" asp-action="TrailerDetails" asp-route-id="@trailer.TrailerID"> @trailer.TrailerNumber </a>
             </li>
 
         }

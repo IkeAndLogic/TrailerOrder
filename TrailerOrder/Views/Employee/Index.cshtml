@@ -54,30 +54,49 @@ else
                         @employee.Title
                     </td>
 
+                    @if (@employee.TractorID == null)
+                    {
 
-                    <td>
-                        <a asp-controller="Employee" asp-action="AssignTractor" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
-                    </td>
+                        <td>
+                            <a asp-controller="Employee" asp-action="AssignTractor" asp-route-id="@employee.EmployeeID"> assign Tractor</a>
+                        </td>
+                    }
 
-
-                    @*@if (@employee.LoginStatus == true && @employee.WorkStatus == "Available")
-        {*@
-
-
-                    <td>
-                        <a asp-controller="Order" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
-                    </td>
-                    @*}
-
-        else if(@employee.LoginStatus == true && @employee.WorkStatus == "Unavailable")
-        {*@
-
-                    <td>
-                        <a asp-controller="Order" asp-action="UnassignOrder" asp-route-id="@employee.EmployeeID"> Unassign order</a>
-                    </td>
-                    @*}*@
+                    else
+                    {
+                        <td>
+                            <a asp-controller="Employee" asp-action="UnassignTractor" asp-route-id="@employee.EmployeeID"> Unassign Tractor</a>
+                        </td>
 
 
+                        <td>
+                            <a asp-controller="Employee" asp-action="CompleteAssignment" asp-route-id="@employee.EmployeeID"> End Assignment</a>
+                        </td>
+
+
+                        @*@if (@employee.LoginStatus == true && @employee.WorkStatus == "Available" )*@
+
+
+                        @if (@employee.OrderID == 0)
+                        {
+
+                            <td>
+                                <a asp-controller="Employee" asp-action="AssignOrder" asp-route-id="@employee.EmployeeID"> assign order</a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a asp-controller="Employee" asp-action="UnassignOrder" asp-route-id="@employee.EmployeeID"> Unassign order</a>
+                            </td>
+
+
+                            <td>
+                                <a asp-controller="Order" asp-action="CompleteOrder" asp-route-id="@employee.EmployeeID"> Complete order</a>
+                            </td>
+                        }
+
+                    }
 
                     <td>
                         <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeID"> Edit</a>

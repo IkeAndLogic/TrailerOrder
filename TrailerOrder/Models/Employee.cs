@@ -83,19 +83,35 @@ namespace TrailerOrder.Models
         public string WorkStatus{get;set;}
 
         //boolean to determine if employee is available for work
-        public bool LoginStatus { get; set; }
-
-
+       // public bool LoginStatus { get; set; }
 
         //property to represent Many Orders to one employee
+        public int OrderID { get; set; }
         public List<Order> Order { get; set; }
 
+        //property to represent on Tractor to one employee
+        // below are the id and navigational property for Tractor table
 
+        
+        public int? TractorID { get; set; }
+        public virtual Tractor Tractor { get; set; }
+        
+        
+        ////Employee Has many Completed Orders
+        //public virtual List <CompletedOrders> CompletedOrders {get; set;}
+
+        //Driver Has many DriverTractorAssignmentHistories
+        public virtual List<DriverTractorAssignmentHistory> DriverTractorAssignmentHistories { get; set; }
+
+
+        ////property to represent Many Attendance to one employee
+        //public int AttendanceID { get; set; }
+        //public List <Attendance> Attendance { get; set; }
 
         public Employee() {
 
             WorkStatus = "Unavailable";
-            LoginStatus = false;
+            //LoginStatus = false;
             DotCompliant = false;
         }
     }

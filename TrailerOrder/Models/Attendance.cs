@@ -18,9 +18,13 @@ namespace TrailerOrder.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
 
-        // property to represent Many Employee to one Attendance relationship
-        public List<Employee>Employee { get; set; }
-        public int EmployeeID { get; set; }
+        //// property to represent Many Employee to one Attendance relationship
+        //public int EmployeeID { get; set; }
+        //public Employee Employee { get; set; }
+
+        ////property to represent Many Tractor to one employee
+        //public int TractorID { get; set; }
+        //public Tractor Tractor { get; set; }
 
 
         public Attendance(){ }
@@ -28,6 +32,8 @@ namespace TrailerOrder.Models
         public Attendance(DateTime workDay)
         {
             WorkDay = workDay.Date;
+            //Employee = null;
+            //Tractor = null;
         }
 
 

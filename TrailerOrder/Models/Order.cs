@@ -14,7 +14,7 @@ namespace TrailerOrder.Models
 
 
 
-        //has a one to one relationship with Trailer
+        //has a one to Many relationship with Trailer
         public int TrailerForLoadID { get; set; }
         public virtual Trailer TrailerForLoad { get; set; }
 
@@ -30,6 +30,8 @@ namespace TrailerOrder.Models
         public int? EmployeeID { get; set; }
         public  Employee Driver { get; set; }
 
+        ////Order Has Many Completed Orders
+        //public virtual List<CompletedOrders> CompletedOrders { get; set; }
 
         public DateTime DueDate { get; set; }
         public DateTime DateDelivered { get; set; }

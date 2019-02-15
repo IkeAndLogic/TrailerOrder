@@ -12,16 +12,18 @@ namespace TrailerOrder.ViewModels
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int EmployeeID { get; set; }
+        public int? EmployeeID { get; set; }
 
-        public int OrderID { get; set; }
+        public int? OrderID { get; set; }
         public string OrderNumber { get; set; }
         public string OrderStatus { get; set; }
 
 
         public UnassignOrderViewModel() { }
 
-        public UnassignOrderViewModel(Employee emp, Order ord) {
+
+        public UnassignOrderViewModel(Employee emp, Order ord)
+        {
 
             FirstName = emp.FirstName;
             LastName = emp.LastName;

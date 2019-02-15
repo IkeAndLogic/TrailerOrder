@@ -1,0 +1,78 @@
+﻿@model TrailerOrder.ViewModels.EditTractorViewModel
+
+@{
+    ViewData["Title"] = "Edit Tractor Details";
+}
+<h2>@ViewData["Title"]</h2>
+
+
+<form asp-controller="Tractor" asp-action="Edit" method="post">
+
+
+
+    <fieldset>
+
+        <input type="hidden" name="TractorID" value="@Model.TractorID" />
+
+        <div class="form-group">
+
+            <div class="col-md-10">
+                <label> Assign Tractor Number </label>
+                <input class="form-control" asp-for="TruckNumber" />
+                <span asp-validation-for="TruckNumber"></span>
+            </div>
+
+            <div class="col-md-10">
+                <label> Vin Number </label>
+                <input class="form-control" asp-for="VinNumber" />
+                <span asp-validation-for="VinNumber"></span>
+            </div>
+
+
+            <div class="col-md-5">
+                <label> Tractor Make </label>
+                <input class="form-control" asp-for="TractorMake " />
+                <span asp-validation-for="TractorMake"></span>
+            </div>
+
+
+            <div class="col-md-5">
+                <label> Tractor Model </label>
+                <input class="form-control" asp-for="TractorModel" />
+                <span asp-validation-for="TractorModel"></span>
+            </div>
+
+
+            <div class="col-md-5">
+                <label>Year</label>
+                <input class="form-control" asp-for="Year" />
+                <span asp-validation-for="Year"></span>
+            </div>
+
+            <div class="col-md-5">
+                <label>Plate Number</label>
+                <input class="form-control" asp-for="PlateNumber" />
+                <span asp-validation-for="PlateNumber"></span>
+            </div>
+
+
+            <div class="col-md-5">
+                <label>Registration Date</label>
+                <input class="form-control" asp-for="RegDate" />
+                <span asp-validation-for="RegDate"></span>
+            </div>
+
+
+            <div class="col-md-5">
+                <label>D.O.T Inpection Date</label>
+                <input class="form-control" asp-for="DotInp" />
+                <span asp-validation-for="DotInp"></span>
+            </div>
+
+        </div>
+
+        <div class="col-md-5">
+            <input type="submit" value=" Edit Tractor details" /><br>
+        </div>
+    </fieldset>
+</form>

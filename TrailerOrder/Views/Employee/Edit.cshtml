@@ -8,7 +8,6 @@
 <form asp-controller="Employee" asp-action="Edit" method="post">
 
 
-    <div>@Model.EmployeeID</div>
 
     <fieldset>
 
@@ -183,6 +182,8 @@
         <div class="row" style="margin-top: 1rem;">
             <div class="col-md-3">
                 <input type="submit" value="Submit" name="submitButton" />
+
+                <input type="submit" value="Cancle" a asp-controller="Employee" asp-action="Index"/>
             </div>
         </div>
 

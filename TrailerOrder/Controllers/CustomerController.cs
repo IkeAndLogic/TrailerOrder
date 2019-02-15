@@ -80,16 +80,30 @@ namespace TrailerOrder.Controllers
         // GET: /<controller>/
         public IActionResult Remove()
         {
-            return View();
+            RemoveCustomerViewModel removeCustomerViewModel = new RemoveCustomerViewModel(context.Customers.ToList());
+            return View(removeCustomerViewModel);
         }
 
 
 
-        // GET: /<controller>/
-        public IActionResult CustomerInfo(int id)
+
+        [HttpPost]
+        public IActionResult Remove(int[] customerIds)
+        {
+            foreach (int customerId in customerIds)
+            {
+                Customer removeCustomer = context.Customers.Single(c => c.CustomerID == customerId);
+                context.Customers.Remove(removeCustomer);                
+            }
+            context.SaveChanges();
+            return Redirect("/Customer");
+        }
+
+
+            // GET: /<controller>/
+            public IActionResult CustomerDetails(int id)
         {
 
-            //System.Diagnostics.Debug.WriteLine(id.ToString());
             if (id == 0){
                 return Redirect("/Customer");
             }
@@ -97,6 +111,72 @@ namespace TrailerOrder.Controllers
             Customer customerInfo = context.Customers.Single(t => t.CustomerID == id);
             return View(customerInfo);
         }
+
+
+
+
+
+
+        // httpGet
+        public IActionResult Edit(int id)
+        {
+
+            Customer customerToEdit = context.Customers.FirstOrDefault(c => c.CustomerID == id);
+
+            //System.Diagnostics.Debug.WriteLine(customerToEdit.CustomerID);
+
+
+            EditCustomerViewModel editCustomerViewModel = new EditCustomerViewModel
+            {
+                CustomerID = customerToEdit.CustomerID,
+                CustomerName = customerToEdit.CustomerName,
+                StreetNumber = customerToEdit.StreetName,
+                StreetName = customerToEdit.StreetName,
+                ZipCode = customerToEdit.ZipCode,
+                City = customerToEdit.City,
+                State = customerToEdit.State,
+            };
+
+            return View(editCustomerViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditCustomerViewModel editCustomerViewModel)
+        {
+
+            Customer customerToEdit = context.Customers.FirstOrDefault(t => t.CustomerID == editCustomerViewModel.CustomerID);
+
+            if (ModelState.IsValid)
+            {
+                customerToEdit.CustomerID = editCustomerViewModel.CustomerID;
+                customerToEdit.CustomerName = editCustomerViewModel.CustomerName;
+                customerToEdit.StreetNumber = editCustomerViewModel.StreetNumber;
+                customerToEdit.StreetName = editCustomerViewModel.StreetName;
+                customerToEdit.ZipCode = editCustomerViewModel.ZipCode;
+                customerToEdit.City = editCustomerViewModel.City;
+                customerToEdit.State = editCustomerViewModel.State;
+
+                //always save changes
+                context.SaveChanges();
+
+                return Redirect("/Customer/CustomerDetails");
+            };
+            return View(editCustomerViewModel);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

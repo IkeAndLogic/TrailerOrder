@@ -11,18 +11,25 @@ namespace TrailerOrder.ViewModels
     public class AddOrderViewModel
     {
         [Required(ErrorMessage = "Must Provide Order Number")]
+        [Display(Name = "Order Number")]
         public string OrderNumber { get; set; }
 
-
+        [Required(ErrorMessage = "You must provide the Due Date"), DataType(DataType.Date)]
+        [Display(Name = "Due Date")]
         public DateTime DueDate { get; set; }
 
+        
         public int TrailerID { get; set; }
 
+        //[Required(ErrorMessage = "Must Provide Trailer Number")]
+        //[Display(Name = "Trailer Number")]
         public List<SelectListItem> TrailersForLoad { get; set; }
 
-        //[Required]
-        //[Display(Name = "Customer")]
+        
         public int CustomerID { get; set; }
+
+        //[Required(ErrorMessage = "Must Provide Customer Name")]
+        //[Display(Name = "Customer Number")]
         public List<SelectListItem> CustomersOrder { get; set; }
 
 
@@ -33,27 +40,6 @@ namespace TrailerOrder.ViewModels
         public AddOrderViewModel()
         {
         }
-
-        /*
-        public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad)
-        {
-
-            TrailersForLoad = new List<SelectListItem>();
-
-            foreach (var trailer in trailersForLoad)
-
-            {
-                TrailersForLoad.Add(new SelectListItem
-
-                {
-                    Value = (trailer.TrailerID).ToString(),
-                    Text = trailer.TrailerNumber
-                });
-            }
-
-        }
-        */
-
 
         // this constructor takes two parameters for Trailer and Customer class to make it avaiable to the order form
         public AddOrderViewModel(IEnumerable<Trailer> trailersForLoad, IEnumerable<Customer> customersOrder)

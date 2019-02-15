@@ -1,0 +1,40 @@
+﻿@model List<TrailerOrder.Models.Tractor>
+
+@{
+    ViewData["Title"] = "All Tractors";
+}
+
+
+@if (Model.Count == 0)
+{
+    <p> No Tractors added yet!</p>
+}
+
+else
+{
+
+
+    <h2>All Tractors </h2>
+
+    <ol>
+
+
+        @foreach (var tractor in Model)
+        {
+        <li>
+            <a asp-controller="Tractor" asp-action="TractorDetails" asp-route-id="@tractor.TractorID"> @tractor.TruckNumber </a>
+
+            <a asp-controller="Tractor" asp-action="Edit" asp-route-id="@tractor.TractorID">Edit</a>
+        </li>
+
+        }
+    </ol>
+
+
+
+}
+<p> <a asp-controller="Tractor" asp-action="Add"> Add Tractor</a> </p>
+
+@*<input type="hidden" value=@Model.TractorID />*@
+
+@*<p> <a asp-controller="Tractor" asp-action="Edit">Edit</a> </p>*@

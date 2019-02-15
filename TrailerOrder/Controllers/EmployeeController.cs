@@ -9,6 +9,7 @@ using TrailerOrder.Models;
 using TrailerOrder.Repositories;
 using TrailerOrder.ViewModels;
 
+
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TrailerOrder.Controllers
@@ -31,11 +32,15 @@ namespace TrailerOrder.Controllers
         //}
 
 
-        private IEmployeesRepository repo;
+        private IEmployeesRepository empRepo;
+        private ITractorRepository truRepo;
+        private IDriverTractorHistoryRepository dtRepo;
 
-        public EmployeeController(IEmployeesRepository repo)
+        public EmployeeController(IEmployeesRepository empRepo, ITractorRepository truRepo, IDriverTractorHistoryRepository dtRepo)
         {
-            this.repo = repo;
+            this.empRepo = empRepo;
+            this.truRepo = truRepo;
+            this.dtRepo = dtRepo;
         }
 
 
@@ -45,7 +50,7 @@ namespace TrailerOrder.Controllers
             //List<Employee> employees = context.Employees.ToList();
             //return View(employees);
 
-            return View(repo.GetAllEmployees());
+            return View(empRepo.GetAllEmployees());
         }
 
 
@@ -85,15 +90,16 @@ namespace TrailerOrder.Controllers
                     MedExpire = addEmployeeViewModel.MedExpire.Date,
                     UserName = addEmployeeViewModel.UserName,
                     Password = addEmployeeViewModel.Password,
-                    PasswordConf = addEmployeeViewModel.PasswordConf
+                    PasswordConf = addEmployeeViewModel.PasswordConf,
+                    //TractorID = 0
                 };
 
                 //context.Employees.Add(newEmployee);
                 //context.SaveChanges();
 
-                repo.CreateEmployee(newEmployee);
+                empRepo.CreateEmployee(newEmployee);
 
-                return Redirect("/");
+                return Redirect("/Employee");
             };
             return View(addEmployeeViewModel);
         }
@@ -102,7 +108,7 @@ namespace TrailerOrder.Controllers
         //Remove
         public IActionResult Remove()
         {
-            RemoveEmployeeViewModel removeEmployeeViewModel = new RemoveEmployeeViewModel(repo.GetAllEmployees());
+            RemoveEmployeeViewModel removeEmployeeViewModel = new RemoveEmployeeViewModel(empRepo.GetAllEmployees());
             return View(removeEmployeeViewModel);
         }
 
@@ -111,7 +117,7 @@ namespace TrailerOrder.Controllers
         public IActionResult Remove(int[] employeeIds)
         {
             // we are doing two things here; calling the function, and also checking if it returns false
-            if (repo.RemoveEmployee(employeeIds) == false)
+            if (empRepo.RemoveEmployee(employeeIds) == false)
             {
                 return Redirect("/Employee/Remove");
             }
@@ -150,12 +156,46 @@ namespace TrailerOrder.Controllers
         public IActionResult EmployeeDetails(int id)
         {
 
-            return View(repo.GetEmployeeWithId(id));
+            return View(empRepo.GetEmployeeWithId(id));
+
         }
 
         public IActionResult Edit(int id)
         {
-            EditEmployeeViewModel editEmployeeViewModel = new EditEmployeeViewModel(repo.GetEmployeeWithId(id));
+            // remember since repo.GetEmployee is returning an Employee object and the Employee default constructor is returning
+            //a null for the EmployeeID Field, we have  create a new object and explicitly assign the EmployeeID values to it
+
+            Employee repoEmployeeObject = empRepo.GetEmployeeWithId(id);
+
+            Employee employee = new Employee()
+            {
+
+                EmployeeID = repoEmployeeObject.EmployeeID,
+
+
+                FirstName = repoEmployeeObject.FirstName,
+                MiddleName = repoEmployeeObject.MiddleName,
+                LastName = repoEmployeeObject.LastName,
+                StreetNumber = repoEmployeeObject.StreetNumber,
+                StreetName = repoEmployeeObject.StreetName,
+                City = repoEmployeeObject.City,
+                ZipCode = repoEmployeeObject.ZipCode,
+                SSN = repoEmployeeObject.SSN,
+                SsnConfirm = repoEmployeeObject.SsnConfirm,
+                Dob = repoEmployeeObject.Dob,
+                Title = repoEmployeeObject.Title,
+                LicNumber = repoEmployeeObject.LicNumber,
+                LicIssue = repoEmployeeObject.LicIssue,
+                LicExpire = repoEmployeeObject.LicExpire,
+                MedCardNumber = repoEmployeeObject.MedCardNumber,
+                MedIssue = repoEmployeeObject.MedIssue,
+                MedExpire = repoEmployeeObject.MedExpire,
+                UserName = repoEmployeeObject.UserName,
+                Password = repoEmployeeObject.Password,
+                PasswordConf = repoEmployeeObject.PasswordConf
+            };
+
+            EditEmployeeViewModel editEmployeeViewModel = new EditEmployeeViewModel(employee);
 
             return View(editEmployeeViewModel);
         }
@@ -165,8 +205,10 @@ namespace TrailerOrder.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employee employee = new Employee
+                Employee employeeToEdit = new Employee
                 {
+                    EmployeeID = editEmployeeViewModel.EmployeeID,
+
                     FirstName = editEmployeeViewModel.FirstName,
                     MiddleName = editEmployeeViewModel.MiddleName,
                     LastName = editEmployeeViewModel.LastName,
@@ -187,17 +229,205 @@ namespace TrailerOrder.Controllers
                     UserName = editEmployeeViewModel.UserName,
                     Password = editEmployeeViewModel.Password,
                     PasswordConf = editEmployeeViewModel.PasswordConf,
+
+                    //Order = null,
+                    //WorkStatus = "Unavailable",
+                    //LoginStatus = false,
+                    //DotCompliant = false,
+
                 };
 
-                repo.Edit(employee);
+                empRepo.Edit(employeeToEdit);
                 return Redirect("/Employee");
             }
-                return View(editEmployeeViewModel);
+            return View(editEmployeeViewModel);
+        }
+
+
+
+
+
+
+        public IActionResult AssignTractor(int id)
+        {
+            Employee driverToAssignTractor = empRepo.GetEmployeeWithId(id);
+
+            //Make sure this method is being drawn from the Tractor Repo and no the Employee Repo
+            List<Tractor> availableTractors = truRepo.GetAvailableTractor();
+
+            AssignTractorViewModel assignTractorViewModel = new AssignTractorViewModel(driverToAssignTractor, availableTractors);
+
+            return View(assignTractorViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult AssignTractor(AssignTractorViewModel assignTractorViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //Employee employee = new Employee()
+                //{
+                //    EmployeeID = assignTractorViewModel.EmployeeID,
+                //    TractorID = assignTractorViewModel.TractorID
+                //};
+
+
+                Employee driver = empRepo.GetEmployeeWithId(assignTractorViewModel.EmployeeID);
+                Tractor truck = truRepo.GetTractorWithId(assignTractorViewModel.TractorID);
+
+                //this is where you need to update DriverTractorAssignmentHistory or do it in the repo.AssignTractor for abstraction purposes
+                empRepo.AssignTractor(driver.EmployeeID, truck.TractorID);
+
+                // changes the availability of tractor once assigned
+                truRepo.ChangeStatusWithId(driver.TractorID.GetValueOrDefault());
+
+                //adds it to drivertractor history
+                dtRepo.AddHistory(driver, truck);
+
+                return Redirect("/Employee");
+            };
+            return View(assignTractorViewModel);
+        }
+
+
+
+
+
+
+
+        public IActionResult UnassignTractor(int id)
+        {
+
+            Employee driverToUnassignTractor = empRepo.GetEmployeeWithId(id);
+            Tractor tractorToBeUnassigned = truRepo.GetTractorWithId(driverToUnassignTractor.TractorID.GetValueOrDefault());
+
+            UnassignTractorViewModel unassignTractorViewModel = new UnassignTractorViewModel(driverToUnassignTractor, tractorToBeUnassigned);
+            return View(unassignTractorViewModel);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult UnassignTractor(UnassignTractorViewModel unassignTractorViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee driver = empRepo.GetEmployeeWithId(unassignTractorViewModel.EmployeeID);
+                Tractor truck = truRepo.GetTractorWithId(unassignTractorViewModel.TractorID.GetValueOrDefault());
+                
+                empRepo.UnassignTractor(driver.EmployeeID);
+                truRepo.ChangeStatusWithId(truck.TractorID);
+                dtRepo.RemoveHistory(driver, truck);
+                return Redirect("/Employee");
+
+            };
+
+            return View(unassignTractorViewModel);
+        }
+
+
+
+
+
+
+        public IActionResult CompleteAssignment(int id)
+        {
+
+            Employee driverToUnassignTractor = empRepo.GetEmployeeWithId(id);
+            Tractor tractorToBeUnassigned = truRepo.GetTractorWithId(driverToUnassignTractor.TractorID.GetValueOrDefault());
+
+            UnassignTractorViewModel unassignTractorViewModel = new UnassignTractorViewModel(driverToUnassignTractor, tractorToBeUnassigned);
+            return View(unassignTractorViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult CompleteAssignment(UnassignTractorViewModel unassignTractorViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Employee driver = empRepo.GetEmployeeWithId(unassignTractorViewModel.EmployeeID);
+                Tractor truck = truRepo.GetTractorWithId(unassignTractorViewModel.TractorID.GetValueOrDefault());
+
+                empRepo.UnassignTractor(driver.EmployeeID);
+                truRepo.ChangeStatusWithId(truck.TractorID);
+                dtRepo.CompleteHistory(driver, truck);
+                return Redirect("/Employee");
+
+            };
+
+            return View(unassignTractorViewModel);
+        }
+
+        public IActionResult AssignOrder(int id)
+        {
+            Employee driverToAssignOrder = empRepo.GetEmployeeWithId(id);
+            IList<Order> availableOrders = empRepo.GetAvailableOrders();
+            
+            AssignOrderViewModel assignOrderViewModel = new AssignOrderViewModel(driverToAssignOrder, availableOrders);
+            return View(assignOrderViewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult AssignOrder(AssignOrderViewModel assignOrderViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                empRepo.AssignOrder(assignOrderViewModel.EmployeeID.GetValueOrDefault(), assignOrderViewModel.OrderID.GetValueOrDefault());
+            }
+       
+            return Redirect("/Employee");
+        }
+
+
+
+
+        public IActionResult UnassignOrder(int id)
+        {
+           
+            Employee driver = empRepo.GetEmployeeWithId(id);
+
+            Order UnassignOrder = empRepo.GetOrderWithId(driver.OrderID);
+
+            UnassignOrderViewModel unassignOrderViewModel = new UnassignOrderViewModel(driver, UnassignOrder);
+
+            return View(unassignOrderViewModel);
+        }
+
+
+
+        [HttpPost]
+        //[ActionName("Edit")]
+        public IActionResult UnassignOrder(UnassignOrderViewModel unassignOrderViewModel)
+        {
+
+            if (ModelState.IsValid)
+            {
+                empRepo.UnassignOrder(unassignOrderViewModel.EmployeeID.GetValueOrDefault(), unassignOrderViewModel.OrderID.GetValueOrDefault());
             }
 
-        
-        
+            return Redirect("/Employee");
+        }
 
+
+        
+       
+        public IActionResult Login()
+        {
+            LoginViewModel loginViewModel = new LoginViewModel();
+            return View(loginViewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return View();
+        }
 
     }
 }

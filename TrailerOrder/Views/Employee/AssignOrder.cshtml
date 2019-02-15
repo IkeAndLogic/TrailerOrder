@@ -1,0 +1,29 @@
+﻿@model TrailerOrder.ViewModels.AssignOrderViewModel
+
+@{
+    ViewData["Title"] = "Assign Order";
+}
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Employee" asp-action="AssignOrder" method="post">
+
+    <p> Driver: @Model.FirstName @Model.LastName </p>
+    <fieldset>
+        <input type="hidden" name="EmployeeID" value="@Model.EmployeeID" />
+
+
+
+        <div class="form-group">
+            <label asp-for="@Model.OrderID">Order Number</label>
+            <select asp-for="@Model.OrderID" asp-items="@Model.Orders"></select>
+            <span asp-validation-for="@Model.OrderID"></span>
+        </div>
+
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" name="submitButton" />
+        </div>
+
+    </fieldset>
+</form>

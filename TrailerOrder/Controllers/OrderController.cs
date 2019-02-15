@@ -16,7 +16,7 @@ namespace TrailerOrder.Controllers
 
         Trailer trailerSelected = new Trailer();
 
-        // a private EpmloyeeDBContext object that will be used within the class to interface with the database
+        // a private TrailerOrderDbContext object that will be used within the class to interface with the database
         private readonly TrailerOrderDbContext context;
 
         // create a constructor that takes the OrderDbContext object as a parameter
@@ -258,6 +258,50 @@ namespace TrailerOrder.Controllers
 
             return Redirect("/Employee");
         }
+
+
+        public IActionResult CompleteOrder(int id)
+        {
+            Employee driverToCompleteOrder = context.Employees.FirstOrDefault(e=>e.EmployeeID == id);
+
+            Order OrderToBeCompleted = context.Orders.FirstOrDefault(o => o.OrderID == driverToCompleteOrder.OrderID);
+
+            Trailer TrailerToBeUnassigned = context.Trailers.FirstOrDefault(t => t.TrailerID == OrderToBeCompleted.TrailerForLoadID);
+
+            CompleteOrderViewModel completeOrderViewModel = new CompleteOrderViewModel(driverToCompleteOrder,OrderToBeCompleted, TrailerToBeUnassigned);
+
+            return View(completeOrderViewModel);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult CompleteOrder(CompleteOrderViewModel completeOrderViewModel)
+        {
+
+            Employee driverToCompleteOrder = context.Employees.FirstOrDefault(e => e.EmployeeID == completeOrderViewModel.EmployeeId);
+            
+            Order orderToBeCompleted = context.Orders.FirstOrDefault(o => o.OrderID == driverToCompleteOrder.OrderID);
+
+            Trailer trailerToBeUnassigned = context.Trailers.FirstOrDefault(t => t.TrailerID == orderToBeCompleted.TrailerForLoadID);
+
+            driverToCompleteOrder.OrderID = 0;
+            driverToCompleteOrder.WorkStatus = "Available";
+
+            orderToBeCompleted.Completed = true;
+            //orderToBeCompleted.TrailerForLoadID = 0;
+
+            trailerToBeUnassigned.TrailerStatus = "Available";
+            context.SaveChanges();
+
+
+
+            return Redirect("/Employee");
+        }
+
+
+
+
     }
 }
 

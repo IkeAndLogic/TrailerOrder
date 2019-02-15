@@ -108,6 +108,7 @@ namespace TrailerOrder.ViewModels
 
         public EditEmployeeViewModel(Employee employee)
         {
+            this.EmployeeID = employee.EmployeeID;
             this.FirstName = employee.FirstName;
             this.MiddleName = employee.MiddleName;
             this.LastName = employee.LastName;
@@ -163,8 +164,8 @@ namespace TrailerOrder.ViewModels
 
         }
 
-        //public EditEmployeeViewModel()
-        //{
-        //}
+        public EditEmployeeViewModel()
+        {
+        }
     }
 }

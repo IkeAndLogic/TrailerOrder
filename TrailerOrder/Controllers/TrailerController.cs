@@ -41,34 +41,42 @@ namespace TrailerOrder.Controllers
         }
 
 
-        //displays form
-        public IActionResult Add()
-        {
-            AddTrailerViewModel addtrailerViewModel = new AddTrailerViewModel();
-
-            return View(addtrailerViewModel);
-        }
 
 
 
-        public IActionResult TrailerInfo(int id)
+
+        public IActionResult TrailerDetails(int id)
         {
             Trailer trailerinfo = context.Trailers.Single(t => t.TrailerID == id);
-
             return View(trailerinfo);
         }
 
 
 
+
+
+        //displays form
+        public IActionResult Add()
+        {
+            AddTrailerViewModel addtrailerViewModel = new AddTrailerViewModel();
+            return View(addtrailerViewModel);
+        }
+
+
         [HttpPost]
-        public IActionResult Add(AddTrailerViewModel addtrailerViewModel)
+        public IActionResult Add(AddTrailerViewModel addTrailerViewModel)
         {
             if (ModelState.IsValid)
             {
                 Trailer newTrailer = new Trailer
                 {
-                    SerialNumber = addtrailerViewModel.SerialNumber,
-                    TrailerNumber = addtrailerViewModel.TrailerNumber
+                    SerialNumber = addTrailerViewModel.SerialNumber,
+                    TrailerNumber = addTrailerViewModel.TrailerNumber,
+                    TrailerMake = addTrailerViewModel.TrailerMake,
+                    TrailerModel = addTrailerViewModel.TrailerModel,
+                    Year = addTrailerViewModel.Year,
+                    InspDate = addTrailerViewModel.InspDate,
+                    RegDate = addTrailerViewModel.RegDate,
                 };
 
                 //add to tractorData
@@ -76,23 +84,16 @@ namespace TrailerOrder.Controllers
                 //always save changes
                 context.SaveChanges();
 
-                return Redirect("/Trailer");
+                return Redirect("/Trailer/");
             };
-            return View(addtrailerViewModel);
+            return View(addTrailerViewModel);
 
         }
-
-
-
-
-
 
         public IActionResult Remove()
         {
             RemoveTrailerViewModel removeTrailerViewModel = new RemoveTrailerViewModel(context.Trailers.ToList());
-
             return View(removeTrailerViewModel);
-
         }
 
 
@@ -124,6 +125,58 @@ namespace TrailerOrder.Controllers
             context.SaveChanges();
             return Redirect("/");
         }
+
+
+
+        // httpGet
+        public IActionResult Edit(int id)
+        {
+            Trailer trailerToEdit = context.Trailers.FirstOrDefault(t => t.TrailerID == id);
+            EditTrailerViewModel editTrailerViewModel = new EditTrailerViewModel
+            {
+                SerialNumber = trailerToEdit.SerialNumber,
+                TrailerNumber = trailerToEdit.TrailerNumber,
+                TrailerMake = trailerToEdit.TrailerMake,
+                TrailerModel = trailerToEdit.TrailerModel,
+                Year = trailerToEdit.Year,
+                InspDate = trailerToEdit.InspDate,
+                RegDate = trailerToEdit.RegDate,
+                TrailerID = trailerToEdit.TrailerID
+            };
+
+            return View(editTrailerViewModel);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult Edit(EditTrailerViewModel editTrailerViewModel)
+        {
+
+            Trailer trailerToEdit = context.Trailers.FirstOrDefault(t => t.TrailerID == editTrailerViewModel.TrailerID);
+
+            if (ModelState.IsValid)
+            {
+                trailerToEdit.TrailerID = editTrailerViewModel.TrailerID;
+                trailerToEdit.SerialNumber = editTrailerViewModel.SerialNumber;
+                trailerToEdit.TrailerNumber = editTrailerViewModel.TrailerNumber;
+
+                trailerToEdit.TrailerMake = editTrailerViewModel.TrailerMake;
+                trailerToEdit.TrailerModel = editTrailerViewModel.TrailerModel;
+                trailerToEdit.Year = editTrailerViewModel.Year;
+                trailerToEdit.InspDate = editTrailerViewModel.InspDate;
+                trailerToEdit.RegDate = editTrailerViewModel.RegDate;
+
+                //always save changes
+                context.SaveChanges();
+
+                return Redirect("/Trailer");
+            };
+            return View(editTrailerViewModel);
+        }
+
+
+
 
     }
 }

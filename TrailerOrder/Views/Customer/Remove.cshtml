@@ -1,5 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
+@model TrailerOrder.ViewModels.RemoveCustomerViewModel
+
 @{
+    ViewData["Title"] = "Remove Customer";
+}
+<h2>@ViewData["Title"]</h2>
+
+@if (@Model.Customers.Count == 0)
+{
+
+    <p> nothing to remove </p>
+}
+else
+{
+    <form asp-controller="Customer" asp-action="Remove" method="post">
+
+        @foreach (var customer in Model.Customers)
+        {
+            <div>
+                <input type="checkbox" name="CustomerIds" id="@customer.CustomerID" value="@customer.CustomerID">
+                <label for=" @customer.CustomerID">@customer.CustomerName</label>
+            </div>
+        }
+        <input type="submit" value=" Remove Selected Customer" /><br>
+
+    </form>
 }

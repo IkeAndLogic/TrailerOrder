@@ -1,0 +1,26 @@
+﻿
+@model TrailerOrder.ViewModels.CompleteOrderViewModel
+
+@{
+    ViewData["Title"] = "Complete Order";
+}
+<h2>@ViewData["Title"]</h2>
+
+<p> You are about to complete order number: @Model.OrderNumber for Driver @Model.FirstName @Model.LastName</p>
+
+ 
+<form asp-controller="Order" asp-action="CompleteOrder" method="post">
+
+    <input type="hidden" name="OrderNumber" value=@Model.OrderId />
+
+    <input type="hidden" name="EmployeeID" value=@Model.EmployeeId />
+
+    <input type="hidden" name="EmployeeID" value=@Model.TrailerId />
+
+
+    <div class="form-group">
+        <input type="submit" value="Submit" name="submitButton" />
+    </div>
+
+
+</form>

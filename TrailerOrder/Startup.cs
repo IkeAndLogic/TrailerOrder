@@ -29,6 +29,9 @@ namespace TrailerOrder
             services.AddMvc();
 
             services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+            services.AddScoped<ITractorRepository, TractorRepository>();
+            services.AddScoped<ITrailerRepository, TrailerRepository>();
+            services.AddScoped<IDriverTractorHistoryRepository, DriverTractorHistoryRepository>();
 
 
 

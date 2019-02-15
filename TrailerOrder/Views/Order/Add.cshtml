@@ -5,47 +5,60 @@
 }
 <h2>@ViewData["Title"]</h2>
 
-<form asp-controller="Order" asp-action="Add" method="post">
 
-    <fieldset>
+    @if (Model.TrailersForLoad.Count() == 0)
+    {
 
-        <div class="form-group">
-            <label asp-for="OrderNumber">Order number </label>
-            <input class="form-control" asp-for="OrderNumber" />
-            <span asp-validation-for="OrderNumber"></span>
+        <p> No Trailer Available. Please Update Trailer Inventory</p>
+    }
+    else if (Model.CustomersOrder.Count() == 0)
+    {
+            <p> No Customer Available. Please Update Customer List</p>
+    }
+    else
+    {
+    <form asp-controller="Order" asp-action="Add" method="post">
 
-        </div>
+        <fieldset>
 
+            <div class="form-group">
+                <label asp-for="OrderNumber">Order number </label>
+                <input class="form-control" asp-for="OrderNumber" />
+                <span asp-validation-for="OrderNumber"></span>
 
-        <div class="form-group">
-            <label asp-for="TrailersForLoad">Trailer</label>
-            @Html.DropDownListFor(x => x.TrailerID, Model.TrailersForLoad)
-            @*<select asp-for="TrailersForLoad" asp-items="Model.TrailersForLoad"></select>=*@
-            <span asp-validation-for="TrailersForLoad"></span>
-        </div>
-
-
-        <div class="form-group">
-            <label asp-for="CustomerID">Customers Name</label>
-            <select asp-for="CustomerID" asp-items="Model.CustomersOrder"></select>
-            <span asp-validation-for="CustomerID"></span>
-        </div>
+            </div>
 
 
+            <div class="form-group">
+                <label asp-for="TrailersForLoad">Trailer</label>
+                @Html.DropDownListFor(x => x.TrailerID, Model.TrailersForLoad)
+                @*<select asp-for="TrailersForLoad" asp-items="Model.TrailersForLoad"></select>=*@
+                <span asp-validation-for="TrailersForLoad"></span>
+            </div>
 
 
-        <div class="form-group">
-            <label asp-for="DueDate">Due Date </label>
-            <input class="form-control" asp-for="DueDate" />
-            <span asp-validation-for="DueDate"></span>
-
-        </div>
-
+            <div class="form-group">
+                <label asp-for="CustomerID">Customers Name</label>
+                <select asp-for="CustomerID" asp-items="Model.CustomersOrder"></select>
+                <span asp-validation-for="CustomerID"></span>
+            </div>
 
 
-        <div class="form-group">
-            <input type="submit" value="Submit" name="submitButton" />
-        </div>
 
-    </fieldset>
-</form>
+
+            <div class="form-group">
+                <label asp-for="DueDate">Due Date </label>
+                <input class="form-control" asp-for="DueDate" />
+                <span asp-validation-for="DueDate"></span>
+
+            </div>
+
+
+
+            <div class="form-group">
+                <input type="submit" value="Submit" name="submitButton" />
+            </div>
+
+        </fieldset>
+    </form>
+    }

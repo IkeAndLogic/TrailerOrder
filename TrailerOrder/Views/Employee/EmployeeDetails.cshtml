@@ -6,7 +6,11 @@
 
 
 <div class="container">
+
+    @*<p type="hidden" name="EmployeeID" value="@Model.EmployeeID"> </p>*@
+
     <table class="table table-hover">
+
         <thead>
             <tr>
                 <th colspan="3">Employee Details</th>
@@ -53,7 +57,7 @@
                 <td>
                     License: @Model.LicNumber
                 </td>
-            
+
                 <td>
                     License Date of Issuance: @Model.LicIssue.ToShortDateString()
                 </td>
@@ -69,7 +73,7 @@
                 <td>
                     Dot Medical Card Number: @Model.MedCardNumber
                 </td>
-            
+
 
                 <td>
                     Medical Card Date of Issuance: @Model.MedIssue.ToShortDateString()
@@ -80,10 +84,22 @@
                 </td>
             </tr>
 
+
+
+
+
+
+
+
+
         <tbody>
     </table>
 
     <p> <a asp-controller="Employee" asp-action="Index">Back</a> </p>
+
+    <p> <a asp-controller="Employee" asp-action="Update" asp-route-id=@Model.EmployeeID>Update Employee Details</a> </p>
+
+
 </div>
 
 

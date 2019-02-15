@@ -1,0 +1,67 @@
+﻿@model TrailerOrder.Models.Trailer
+
+@{
+    ViewData["Title"] = "Trailer Details";
+}
+<table>
+
+    <tr>
+        <th>Trailer Number: @Model.TrailerNumber</th>
+    </tr>
+
+    <tr>
+        <td>
+            Serial Number: @Model.SerialNumber
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Trailer Make: @Model.TrailerMake
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            Trailer Model: @Model.TrailerModel
+        </td>
+    </tr>
+
+
+
+
+    <tr>
+        <td>
+            Trailer Year: @Model.Year
+        </td>
+    </tr>
+
+
+
+
+
+    <tr>
+        <td>
+            Registration Date: @Model.RegDate.ToShortDateString()
+        </td>
+    </tr>
+
+
+
+    <tr>
+        <td>
+            Inspection Date: @Model.InspDate.ToShortDateString()
+        </td>
+    </tr>
+
+
+
+</table>
+
+<p> <a asp-controller="Trailer" asp-action="Index">Back</a> </p>
+
+<p> <a asp-controller="Trailer" asp-action="Edit" asp-route-id=@Model.TrailerID>Edit</a> </p>
+
+

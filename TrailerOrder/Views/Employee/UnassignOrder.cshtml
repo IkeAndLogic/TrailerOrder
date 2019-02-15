@@ -1,0 +1,31 @@
+﻿@model TrailerOrder.ViewModels.UnassignOrderViewModel
+
+@{
+    ViewData["Title"] = "Unassign Order";
+}
+<h2>@ViewData["Title"]</h2>
+
+<p> You are about to unassign order number: @Model.OrderNumber for Driver @Model.FirstName @Model.LastName</p>
+
+
+<form asp-controller="Employee" asp-action="UnassignOrder" method="post">
+
+    <input type="hidden" name="FirstName" value=@Model.FirstName />
+
+    <input type="hidden" name="LastName" value=@Model.LastName />
+
+    <input type="hidden" name="OrderNumber" value=@Model.OrderNumber />
+
+    <input type="hidden" name="OrderNumber" value=@Model.OrderID />
+
+    <input type="hidden" name="EmployeeID" value=@Model.EmployeeID />
+
+
+
+
+    <div class="form-group">
+        <input type="submit" value="Submit" name="submitButton" />
+    </div>
+
+
+</form>

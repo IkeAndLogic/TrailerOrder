@@ -1,0 +1,32 @@
+﻿@model TrailerOrder.ViewModels.UnassignTractorViewModel
+
+@{
+    ViewData["Title"] = "Unassign tractor";
+}
+<h2>@ViewData["Title"]</h2>
+
+
+
+@*@if(@Model.TractorID == null)
+{
+    <p> You have no Tractor to unassign</p>
+}*@
+
+    <p> You are about to unassign Truck number: @Model.TractorNumber for Driver @Model.FirstName @Model.LastName</p>
+
+
+    <form asp-controller="Employee" asp-action="UnassignTractor" method="post">
+
+        
+        <input type="hidden" name="TractorID" value=@Model.TractorID />
+
+        <input type="hidden" name="EmployeeID" value=@Model.EmployeeID />
+
+
+        <div class="form-group">
+            <input type="submit" value="Submit" name="submitButton" />
+        </div>
+
+
+    </form>
+
